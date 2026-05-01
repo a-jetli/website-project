@@ -1,0 +1,649 @@
+/* ════════════════════════════════════════
+   LAYOUT
+════════════════════════════════════════ */
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.left-panel {
+  width: 30%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+  text-align: center;
+  background: transparent;
+  overflow-y: auto;
+  justify-content: center;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+.left-panel::-webkit-scrollbar {
+  display: none;
+}
+
+.right-panel {
+  margin-left: 30%;
+  width: 70%;
+  padding: 6rem 4rem 4rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  background: transparent;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+
+/* ════════════════════════════════════════
+   LEFT PANEL — IDENTITY
+════════════════════════════════════════ */
+
+.photo-placeholder {
+  width: 200px;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  background-color: var(--bg-subtle);
+  border: 1px dashed #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  align-items: center;
+  text-align: center;
+  /* padding-top: 1rem;
+  border-top: 1px solid var(--border);       <-- Uncomment when adding photo*/ 
+  width: 100%;
+}
+
+.name {
+  font-size: 2rem;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.occupation {
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+.aspiration {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+/* ════════════════════════════════════════
+   LEFT PANEL — NAV & FOOTER
+════════════════════════════════════════ */
+
+.nav-footer {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+nav {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+nav a {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  transition: color 0.2s;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.2s ease, left 0.2s ease;
+}
+
+nav a:hover::after,
+nav a.active::after {
+  width: 100%;
+  left: 0;
+}
+
+nav a.active {
+  color: var(--accent);
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.social-links a {
+  color: var(--text-muted);
+  font-size: 1.3rem;
+  transition: color 0.2s;
+}
+
+.social-links a:hover {
+  color: var(--accent);
+}
+
+
+/* ════════════════════════════════════════
+   THEME SWITCHER
+════════════════════════════════════════ */
+
+.theme-switcher {
+  position: relative;
+  margin-top: 1rem;
+}
+
+.theme-icon {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.theme-icon:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.theme-menu {
+  position: absolute;
+  bottom: 110%;
+  left: 0;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.theme-menu.open {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.theme-menu button {
+  background: none;
+  border: none;
+  color: #aaaaaa;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  text-align: left;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+}
+
+.theme-menu button:hover {
+  background: #3a3a3a;
+  color: #eeeeee;
+}
+
+.theme-menu button.active {
+  background: #3a3a3a;
+  color: #e09b35;
+}
+
+.theme-submenu-wrapper {
+  position: relative;
+}
+
+.theme-submenu {
+  position: absolute;
+  left: 100%;
+  bottom: 0;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  min-width: 140px;
+}
+
+.has-submenu {
+  white-space: nowrap;
+}
+
+.theme-submenu.open {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(0);
+}
+
+
+/* ════════════════════════════════════════
+   CUSTOM THEME PROMPT
+════════════════════════════════════════ */
+
+.custom-prompt {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 10000;
+  min-width: 220px;
+}
+
+.custom-prompt.open {
+  opacity: 1;
+  pointer-events: all;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.custom-prompt h3 {
+  color: #eeeeee;
+  font-size: 0.95rem;
+  font-weight: normal;
+  letter-spacing: 0.05em;
+}
+
+.custom-prompt label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #aaaaaa;
+  font-size: 0.85rem;
+}
+
+.custom-prompt input[type="color"] {
+  width: 36px;
+  height: 24px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  background: none;
+}
+
+.custom-prompt button {
+  background: none;
+  border: 1px solid #444;
+  color: #aaaaaa;
+  padding: 0.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+}
+
+.custom-prompt button:hover {
+  background: #3a3a3a;
+  color: #eeeeee;
+}
+
+
+/* ════════════════════════════════════════
+   RIGHT PANEL — GENERAL SECTIONS
+════════════════════════════════════════ */
+
+section h2 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: var(--text);
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--accent);
+}
+
+.bio-heading {
+  padding-left: 0;
+  border-left: none;
+}
+
+section p {
+  color: var(--text-muted);
+  max-width: 720px;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.lead {
+  color: var(--text);
+  font-size: 1.05rem;
+  font-weight: 400;
+  margin-bottom: 0.75rem;
+  max-width: 720px;
+  line-height: 1.7;
+}
+
+
+/* ════════════════════════════════════════
+   RIGHT PANEL — EDUCATION
+════════════════════════════════════════ */
+
+.edu-entry {
+  margin-bottom: 1.25rem;
+}
+
+.edu-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.2rem;
+}
+
+.edu-school {
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.edu-year {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.edu-degree {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  max-width: 720px;
+}
+
+
+/* ════════════════════════════════════════
+   RIGHT PANEL — CONTACT
+════════════════════════════════════════ */
+
+.contact-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.contact-links a {
+  color: var(--text-muted);
+  font-size: 1.4rem;
+  transition: color 0.2s;
+}
+
+.contact-links a:hover {
+  color: var(--accent);
+}
+
+
+/* ════════════════════════════════════════
+   RIGHT PANEL — PROJECTS (FEATURED)
+   
+   Usage:
+   - span.project-name         → no link, static accent color
+   - a.project-name-linked     → has link, accent → text on hover
+════════════════════════════════════════ */
+
+.project-featured {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.project-featured:last-child {
+  border-bottom: none;
+}
+
+.project-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Static featured project name — no link */
+.project-name {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+/* Linked featured project name — hoverable */
+a.project-name-linked {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a.project-name-linked:hover {
+  color: var(--text);
+}
+
+.project-tag {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  font-style: italic;
+}
+
+.project-links a {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  transition: color 0.2s;
+}
+
+.project-links a:hover {
+  color: var(--accent);
+}
+
+.project-desc {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  max-width: 680px;
+}
+
+.project-stack {
+  font-size: 0.78rem;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+
+
+/* ════════════════════════════════════════
+   RIGHT PANEL — PROJECTS (OTHER)
+
+   Usage:
+   - span.project-name-small           → wraps an <a>, hoverable
+   - span.project-name-small.static    → no link, no hover effect
+════════════════════════════════════════ */
+
+.project-small {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.project-small:last-child {
+  border-bottom: none;
+}
+
+.project-small-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Base small project name */
+.project-name-small {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--accent);
+  transition: color 0.2s;
+}
+
+/* Link inside small project name inherits color from parent */
+.project-name-small a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+/* Hoverable — changes to text color on hover */
+.project-small:hover .project-name-small {
+  color: var(--text);
+}
+
+/* Static — no hover effect, stays accent */
+.project-name-small.static {
+  cursor: default;
+}
+
+.project-small:hover .project-name-small.static {
+  color: var(--accent);
+}
+
+.project-stack-small {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.project-small-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  max-width: 680px;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+
+/* ════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════ */
+
+footer {
+  margin-left: 30%;
+  width: 70%;
+  padding: 2rem 4rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+
+/* ════════════════════════════════════════
+   RESPONSIVE — MOBILE (max-width: 1200px)
+════════════════════════════════════════ */
+
+@media (max-width: 1200px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .left-panel {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .right-panel {
+    margin-left: 0;
+    width: 100%;
+    padding: 2rem 1.5rem;
+  }
+
+  .photo-placeholder {
+    max-width: 140px;
+  }
+
+  .theme-menu {
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+  }
+
+  .theme-menu.open {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .theme-submenu {
+    left: 0;
+    top: 0;
+    bottom: auto;
+    transform: translateY(-100%);
+  }
+
+  footer {
+    margin-left: 0;
+    width: 100%;
+    padding: 2rem 1.5rem;
+  }
+}
