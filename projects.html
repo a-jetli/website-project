@@ -74,7 +74,8 @@
 
         <div class="project-featured">
           <div class="project-header">
-            <a href="https://github.com/a-jetli/website-project" target="_blank" class="project-name-linked">Portfolio Website</a>
+            <a href="https://github.com/a-jetli/website-project" target="_blank" class="project-name-linked">Portfolio
+              Website</a>
             <span class="project-links">
               <a href="https://github.com/a-jetli/website-project" target="_blank">Live <i
                   class="fas fa-arrow-up-right-from-square"></i></a>
@@ -82,7 +83,9 @@
           </div>
           <p class="project-desc">This site was designed and built from scratch with no frameworks. Features a
             persistent fixed sidebar layout, a multi-theme system with local storage persistence and a custom color
-            picker, responsive mobile layout, and smooth page transitions. Built to learn fundamentals and have some fun (try making your own custom theme!). Design was inspired by <a href="https://brittanychiang.com" target="_blank">Brittany
+            picker, responsive mobile layout, and smooth page transitions. Built to learn fundamentals and have some fun
+            (try making your own custom theme!). Design was inspired by <a href="https://brittanychiang.com"
+              target="_blank">Brittany
               Chiang</a>'s portfolio site.</p>
           <span class="project-stack">HTML · CSS · JavaScript</span>
         </div>
@@ -118,13 +121,24 @@
 
         <div class="project-small">
           <div class="project-small-header">
-            <span class="project-name-small static">Photo Management App</span>
-            <span class="project-stack-small">Java · JavaFX · Android</span>
+            <span class="project-name-small">
+              <a href="https://github.com/a-jetli/Adventure-Game-Project" target="_blank">Text Based LLM Adventure Game
+              </a>
+            </span>
+            <span class="project-stack-small">Python · OpenAI API · Pygame · Pydantic · Prompt Engineering</span>
           </div>
-          <p class="project-small-desc">Fullstack desktop and Android application for multi user photo organization.
-            Designed with MVC architecture separating FXML views from controllers, custom Java Serialization persistence
-            layer for local storage, and a central navigation system tracking session state across views. Core
-            functionality ported to a native Android application. Built as part of CS213 Software Methodology.</p>
+          <p class="project-small-desc">A lofi text adventure where an LLM acts as dungeon master, responding to natural
+            language input with dynamically generated narrative, like talking out your own adventure novel. Features a
+            simple
+            combat system and a Pygame based CLI-style UI.
+            The engine owns authoritative game state and
+            applies changes only after Pydantic schema validation, preventing hallucinations.
+            Context is managed across an injected engine state, a sliding hot context
+            window with summarization compression, and a markdown file based cold storage for world logs and NPC
+            histories
+            retrieved on demand. An evaluation harness runs regression test cases against the LLM output contract after
+            any
+            system prompt change.</p>
         </div>
 
         <div class="project-small">
@@ -142,6 +156,17 @@
           </p>
         </div>
 
+
+        <div class="project-small">
+          <div class="project-small-header">
+            <span class="project-name-small static">Photo Management App</span>
+            <span class="project-stack-small">Java · JavaFX · Android</span>
+          </div>
+          <p class="project-small-desc">Fullstack desktop and Android application for multi user photo organization.
+            Designed with MVC architecture separating FXML views from controllers, custom Java Serialization persistence
+            layer for local storage, and a central navigation system tracking session state across views. Core
+            functionality ported to a native Android application. Built as part of CS213 Software Methodology.</p>
+        </div>
 
 
       </section>
