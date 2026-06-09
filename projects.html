@@ -74,21 +74,18 @@
 
         <div class="project-featured">
           <div class="project-header">
-            <a href="https://a-jetli.github.io/rag-paper-demo-live/" target="_blank"
-              class="project-name-linked">Agentic RAG Pipeline</a>
+            <a href="https://a-jetli.github.io/rag-paper-demo-live/" target="_blank" class="project-name-linked">Agentic
+              RAG Pipeline</a>
             <span class="project-links">
               <a href="https://github.com/a-jetli/rag-paper-pipeline" target="_blank">GitHub <i
                   class="fas fa-arrow-up-right-from-square"></i></a>
             </span>
           </div>
-          <p class="project-desc">Retrieval-augmented generation pipeline over ~480 arXiv AI/ML papers. Combines
-            sentence-boundary chunking, hybrid BM25 + semantic retrieval fused via reciprocal rank fusion, and Jina
-            cross-encoder reranking for actual relevance scoring rather than similarity proxies. A LangGraph agent
-            decomposes compound queries, grades whether retrieved context is sufficient, and retries with reformulated
-            searches when it falls short. The corpus is sourced across three tiers designed to create heavily
-            overlapping technical vocabularies that stress retrieval discrimination. Served through FastAPI with an
-            ahead-of-time serialized BM25 index to stay within free-tier memory limits.</p>
-          <span class="project-stack">Python · OpenAI API · ChromaDB · LangGraph · FastAPI · Jina Reranker ·
+          <p class="project-desc">Retrieval-augmented generation pipeline over ~500 arXiv AI/ML papers. Combines
+            sentence-boundary chunking, hybrid BM25 + semantic retrieval fused via reciprocal rank fusion, and a local cross-encoder reranker for relevance scoring rather than
+            similarity proxies. A LangGraph agent decomposes compound queries, grades whether retrieved context is sufficient, and retries with reformulated searches when it
+            falls short. Served through FastAPI on Hugging Face Spaces, with the reranker running locally.</p>
+          <span class="project-stack">Python · OpenAI API · ChromaDB · LangGraph · FastAPI · Flashrank ·
             BM25</span>
         </div>
 
