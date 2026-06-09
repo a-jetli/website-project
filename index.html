@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AJ | Portfolio</title>
   <meta name="description"
-    content="Ansh Jetli — CS student at Rutgers University focused on AI and software engineering. Based in New Jersey, open to internships and new grad roles.">
+    content="CS senior at Rutgers University building LLM systems. Agentic RAG, AI engineering, backend development. Seeking new grad SWE roles (Jan 2027, NYC/NJ)">
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
     rel="stylesheet">
@@ -72,19 +72,55 @@
     <main class="right-panel">
       <section id="bio">
         <h2 class="bio-heading"><span style="color: var(--accent)">Hi, I'm Ansh!</span></h2>
-        <p class="lead">I'm a senior CS student at Rutgers University focused on AI and SWE</p>
-        <p>I'm about to enter my last semester at Rutgers University New Brunswick and I'm based in central New Jersey.
+        <p class="lead">I'm a Computer Science student and I build LLM systems.</p>
+        <p>
+          I'm a senior CS student at Rutgers University, graduating December 2026, based in central New Jersey. My
+          coursework runs from data structures and algorithms through programming language theory. I've studied 
+          languages like Java, C and OCaml, but most of my time now goes into applied AI and backend work in Python. 
+          
         </p>
         <p>
-          My coursework background is mainly in Java, spanning from data structures and algorithms to backend and
-          fullstack applications including on Android. I've also studied or worked in languages like OCaml, C and
-          Python, which is what I mostly use now. I'm currently enjoying learning about and working on projects in applied AI.
+          Most recently, I built an agentic RAG pipeline over ~500 arXiv research papers. It searches with a mix of keyword and
+          semantic retrieval, reranks what it finds, and runs a LangGraph agent that breaks a question down, checks
+          whether it actually has enough to answer, and tries again when it doesn't. It's deployed and you can query it
+          right now. Before that, I made a text RPG engine where an LLM plays dungeon master but a deterministic Python
+          engine owns
+          all the game state and only applies a change after it passes validation. It's like playing through your own
+          adventure book!
         </p>
+
         <p>
-          I'm interested in building projects that solve real world problems. I'd love to be in a role 
-          that can genuinely benefit or help people. Right now, I'm focused on learning more in
-          the AI field to keep up with the rapidly evolving industry.
+          Beyond those, I like building things and I care about understanding systems all the way 
+          down. I'd love a role where what I built genuinely helps people and solves real problems.
         </p>
+      </section>
+
+      <section id="featured-work">
+        <h2>Featured Work</h2>
+
+        <div class="project-featured">
+          <div class="project-header">
+            <a href="https://github.com/a-jetli/rag-paper-pipeline" target="_blank" class="project-name-linked">Agentic
+              RAG Pipeline <i class="fas fa-arrow-up-right-from-square" style="font-size: 0.7em;"></i></a>
+            <span class="project-links">
+              <a href="https://a-jetli.github.io/rag-paper-demo-live/" target="_blank">Live demo <i
+                  class="fas fa-arrow-up-right-from-square"></i></a>
+            </span>
+          </div>
+          <p class="project-desc">BM25 + semantic retrieval, cross encoder reranking, and a LangGraph agent with
+            query decomposition and retry loops. Runs over ~500 arXiv papers, demo is deployed and 
+            live (free tier, first query may take ~30–60s to wake).</p>
+        </div>
+
+        <div class="project-featured">
+          <div class="project-header">
+            <a href="https://github.com/a-jetli/Adventure-Game-Project" target="_blank" class="project-name-linked">LLM
+              Text RPG Engine <i class="fas fa-arrow-up-right-from-square" style="font-size: 0.7em;"></i></a>
+          </div>
+          <p class="project-desc">An LLM dungeon master constrained by a deterministic engine where every state change
+            passes
+            Pydantic schema validation before it's applied. Three tiered memory system, regression eval harness.</p>
+        </div>
       </section>
 
       <section id="education">
@@ -92,7 +128,7 @@
         <div class="edu-entry">
           <div class="edu-top">
             <span class="edu-school">Rutgers University, New Brunswick</span>
-            <span class="edu-year">Expected 2026</span>
+            <span class="edu-year">Expected Dec 2026</span>
           </div>
           <p class="edu-degree">B.S. Computer Science</p>
         </div>
@@ -107,15 +143,16 @@
 
       <section id="looking-for">
         <h2>What I'm Looking For</h2>
-        <p>I'm looking for employment opportunities in software engineering, particularly in AI and backend development.
-          Primarily looking for full-time new grad roles starting in Jan 2027. I'm also interested in any fall internship roles for 2026.
-        </p>
-        <p>Open to work within the US, but especially looking in NJ and the NYC metro area.</p>
+        <p>I'm looking for full time new grad software engineering roles starting January/February 2027, particularly
+          in AI engineering and backend development.</p>
+        <p>I'm open to work within the US, but particularly targeting the NYC metro area. I am based in central NJ.</p>
       </section>
 
       <section id="interests">
         <h2>Hobbies</h2>
-        <p>When I'm not busy with school or projects, I enjoy reading and playing video games. I'm a big fan of anything in the fantasy genre. Right now I'm playing a lot of indie games and I'm a long time Overwatch player. I'm also really into music, and I'm teaching myself to play the guitar!
+        <p>When I'm not busy with school or projects, I enjoy reading and playing video games. I'm a big fan of anything
+          in the fantasy genre. Right now I'm playing a lot of indie games and I'm a long time Overwatch player. I'm
+          also really into music, and I'm teaching myself to play the guitar!
         </p>
       </section>
       <section id="contact">
