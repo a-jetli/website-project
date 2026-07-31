@@ -6,20 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AJ | Portfolio</title>
   <meta name="description"
-    content="CS senior at Rutgers University building LLM systems. Agentic RAG, AI engineering, backend development. Seeking new grad SWE roles (Jan 2027, NYC/NJ)">
+    content="Final semester CS senior at Rutgers University. Applied AI and backend engineering in Python. Seeking new grad SWE roles (Jan 2027, NYC/NJ)">
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/sections.css">
   <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230d0f14'/><text y='72' x='50' text-anchor='middle' font-size='52' font-family='Georgia,serif' font-weight='600' fill='%2360a5fa'>AJ</text></svg>">
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230d0f14'/><text y='72' x='50' text-anchor='middle' font-size='52' font-family='Georgia,serif' font-weight='600' fill='%236ba7f5'>AJ</text></svg>">
   <meta property="og:title" content="Ansh Jetli | Portfolio">
   <meta property="og:description" content="CS student at Rutgers focused on AI and software engineering.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://a-jetli.github.io">
+  <meta property="og:url" content="https://ajetli.com">
 </head>
 
 <body>
@@ -30,7 +30,7 @@
       <img src="header_photo.jpg" class="photo" alt="Ansh Jetli">
       <div class="identity">
         <h1 class="name">Ansh Jetli</h1>
-        <p class="occupation">CS Student at Rutgers University</p>
+        <p class="occupation">CS Student @ Rutgers New Brunswick</p>
       </div>
 
       <div class="nav-footer">
@@ -56,11 +56,11 @@
             <button data-theme="light">Light</button>
             <button data-theme="dark">Dark</button>
             <div class="theme-submenu-wrapper">
-              <button class="has-submenu">Other ⏩</button>
+              <button class="has-submenu">Other &#9656;</button>
               <div class="theme-submenu" id="theme-submenu">
-                <button data-theme="coral">Coral</button>
+                <button data-theme="autumn">Autumn</button>
                 <button data-theme="wisteria">Wisteria</button>
-                <button data-theme="stormy">Storm/button>
+                <button data-theme="stormy">Storm</button>
                 <button id="custom-trigger">— Custom —</button>
               </div>
             </div>
@@ -72,54 +72,90 @@
     <main class="right-panel">
       <section id="bio">
         <h2 class="bio-heading"><span style="color: var(--accent)">Hi, I'm Ansh!</span></h2>
-        <p class="lead">I'm a Computer Science student and I build LLM systems.</p>
         <p>
-          I'm a senior CS student at Rutgers University, graduating December 2026, based in central New Jersey. My
-          coursework runs from data structures and algorithms through programming language theory. I've studied 
-          languages like Java, C and OCaml, but most of my time now goes into applied AI and backend work in Python. 
-          
-        </p>
-        <p>
-          Most recently, I built an agentic RAG pipeline over 1000 arXiv research papers. It searches with a mix of keyword and
-          semantic retrieval, reranks what it finds, and runs a LangGraph agent that breaks a question down, checks
-          whether it actually has enough to answer, and tries again when it doesn't. It's deployed and you can query it
-          right now. Before that, I made a text RPG engine where an LLM plays dungeon master but a deterministic Python
-          engine owns all the game state and only applies a change after it passes validation. It's like playing through your own
-          adventure book!
+          I'm a final semester senior CS student at Rutgers University New Brunswick, based in central New Jersey.
         </p>
 
         <p>
-          Beyond those, I like building things and I care about understanding systems all the way 
-          down. I'd love a role where what I built genuinely helps people and solves real problems.
+          My coursework spans from basics like data structures and algorithms to specifics like software methodology,
+          intro to artificial intelligence, data science topics, and programming language theory. I've studied in
+          languages like Java, C, and OCaml, as well as used popular libraries like NumPy and Pandas. Most of my personal work
+          now goes into applied AI and backend work in Python.
         </p>
       </section>
 
-      <section id="featured-work">
-        <h2>Featured Work</h2>
+      <section id="looking-for">
+        <h2>What I'm Looking For</h2>
+        <p>I'm looking for full time new grad software engineering roles starting in January 2027, particularly in AI
+          or backend development. I'm also looking for internship or co-op opportunities for the fall 2026 semester!</p>
+        <p>I'm open to work within the continental US, but particularly targetting the NYC metro area. I'm currently
+          based in central NJ.</p>
+      </section>
 
-        <div class="project-featured">
+      <section id="recent-work">
+        <h2>Recent Work</h2>
+
+        <div class="project-featured project-inline">
+          <div class="project-header">
+            <a href="https://github.com/a-jetli/lastfm-analytics" target="_blank"
+              class="project-name-linked">Rotation <i class="fas fa-arrow-up-right-from-square"
+                style="font-size: 0.7em;"></i></a>
+            <span class="project-links">
+              <a href="https://rotation.ajetli.com" target="_blank">Live demo <i
+                  class="fas fa-arrow-up-right-from-square"></i></a>
+            </span>
+          </div>
+          <span class="project-stack">Python · FastAPI · PostgreSQL · Docker Compose · Amazon EC2</span>
+        </div>
+
+        <p>
+          Most recently, I built a music listening history and analytics tool because I felt Spotify's history feature
+          did not give me enough information. For instance, history from many weeks ago, or listening trends are
+          completely absent, so I implemented them myself. I chose to use Last.fm's API to source scrobbles because it's
+          easier to work with and can encompass streams from multiple services under one account's umbrella. You can
+          demo it yourself if you've signed up for Last.fm by visiting
+          <a href="https://rotation.ajetli.com" target="_blank">rotation.ajetli.com</a>, and read more about it at the linked GitHub repo.
+        </p>
+
+        <div class="project-featured project-inline">
           <div class="project-header">
             <a href="https://github.com/a-jetli/rag-paper-pipeline" target="_blank" class="project-name-linked">Agentic
               RAG Pipeline <i class="fas fa-arrow-up-right-from-square" style="font-size: 0.7em;"></i></a>
             <span class="project-links">
-              <a href="https://a-jetli.github.io/rag-paper-demo-live/" target="_blank">Live demo <i
+              <a href="https://rag.ajetli.com" target="_blank">Live demo <i
                   class="fas fa-arrow-up-right-from-square"></i></a>
             </span>
           </div>
-          <p class="project-desc">BM25 + semantic retrieval, cross encoder reranking, and a LangGraph agent with
-            query decomposition and retry loops. Runs over 1000 arXiv papers, demo is deployed and 
-            live (free tier, first query may take ~30–60s to wake).</p>
+          <span class="project-stack">Python · LangGraph · FastAPI · ChromaDB · OpenAI API · BM25</span>
         </div>
 
-        <div class="project-featured">
+        <p>
+          Before that I worked on an agentic RAG pipeline over 1000 arXiv papers spanning many topics in AI, which I personally
+          use to learn by asking questions on new or misunderstood topics or formulas. It works on a LangGraph agent that breaks queries into
+          subequeries, and when fetching relevant chunks it reranks and checks if a sufficient answer can be formed. If not, it tries again. You can
+          demo it yourself at
+          <a href="https://rag.ajetli.com" target="_blank">rag.ajetli.com</a>, or read more about it under the architecture tab. You can also
+          view every single paper used under the papers tab.
+        </p>
+
+        <div class="project-featured project-inline">
           <div class="project-header">
             <a href="https://github.com/a-jetli/Adventure-Game-Project" target="_blank" class="project-name-linked">LLM
               Text RPG Engine <i class="fas fa-arrow-up-right-from-square" style="font-size: 0.7em;"></i></a>
           </div>
-          <p class="project-desc">An LLM dungeon master constrained by a deterministic engine where every state change
-            passes
-            Pydantic schema validation before it's applied. Three tiered memory system, regression eval harness.</p>
+          <span class="project-stack">Python · OpenAI API · Pydantic · Textual</span>
         </div>
+
+        <p>
+          An ongoing project of mine is a presently unnamed text based RPG game where I had the idea to make an LLM act
+          as a world builder and narrator, almost like a dungeon master. The idea was to be able to play through your own book,
+          where narratively you were the main character but you did not dictate the state of the world beyond. However, to make this work as a full scale
+          project I had to figure out logging and retrieval strategies. My solution uses a deterministic Python engine
+          that owns the game state and an LLM that outputs game state alterations in an enforced structured output
+          format, allowing the engine to receive and resolve all changes with no risk of hallucination. I'm constantly
+          iterating on this project and you can read more about it or look through the code at the GitHub repo linked
+          above.
+        </p>
       </section>
 
       <section id="education">
@@ -127,7 +163,7 @@
         <div class="edu-entry">
           <div class="edu-top">
             <span class="edu-school">Rutgers University, New Brunswick</span>
-            <span class="edu-year">Expected Dec 2026</span>
+            <span class="edu-year">Graduating Dec 2026</span>
           </div>
           <p class="edu-degree">B.S. Computer Science</p>
         </div>
@@ -140,23 +176,17 @@
         </div>
       </section>
 
-      <section id="looking-for">
-        <h2>What I'm Looking For</h2>
-        <p>I'm looking for full time new grad software engineering roles starting January/February 2027, particularly
-          in AI engineering and backend development.</p>
-        <p>I'm open to work within the US, but particularly targeting the NYC metro area. I am based in central NJ.</p>
-      </section>
-
       <section id="interests">
         <h2>Hobbies</h2>
-        <p>When I'm not busy with school or projects, I enjoy reading and playing video games. I'm a big fan of anything
-          in the fantasy genre. Right now I'm playing a lot of indie games and I'm a long time Overwatch player. I'm
-          also really into music, and I'm teaching myself to play the guitar!
+        <p>When I'm not busy with school or projects, I enjoy reading and playing video games. I'm a fan of anything in
+          the fantasy genre, and right now I'm playing a lot of indie games. I've also been a long time fan of
+          multiplayer games like Destiny 2 or Overwatch. I'm also really into music, and I'm learning how to play the
+          guitar!
         </p>
       </section>
       <section id="contact">
         <h2>Contact</h2>
-        <p>The best way to reach me is via email or LinkedIn.</p>
+        <p>The best way to reach me is via email or LinkedIn. Please feel free to reach out if you think I'm a good fit for a role, or if you'd like to learn more.</p>
         <div class="contact-links">
           <a href="https://github.com/a-jetli" target="_blank" aria-label="GitHub" title="GitHub">
             <i class="fab fa-github"></i>
@@ -174,12 +204,12 @@
   </div>
   <div class="custom-prompt" id="custom-prompt">
     <h3>Custom Theme</h3>
-    <label>Background<input type="color" data-var="--bg" value="#ffffff"></label>
-    <label>Surface<input type="color" data-var="--bg-subtle" value="#f0f0f0"></label>
-    <label>Text<input type="color" data-var="--text" value="#000000"></label>
-    <label>Muted Text<input type="color" data-var="--text-muted" value="#666666"></label>
-    <label>Accent<input type="color" data-var="--accent" value="#0077cc"></label>
-    <label>Border<input type="color" data-var="--border" value="#cccccc"></label>
+    <label>Page background<input type="color" data-var="--bg" value="#0d0f14"></label>
+    <label>Panels &amp; cards<input type="color" data-var="--bg-subtle" value="#1e2435"></label>
+    <label>Body text<input type="color" data-var="--text" value="#bcc2cd"></label>
+    <label>Headings &amp; labels<input type="color" data-var="--text-muted" value="#8b93a1"></label>
+    <label>Links &amp; accents<input type="color" data-var="--accent" value="#6ba7f5"></label>
+    <label>Lines &amp; borders<input type="color" data-var="--border" value="#252a38"></label>
     <button id="custom-apply">Apply</button>
     <button id="custom-close">Cancel</button>
   </div>

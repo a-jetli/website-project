@@ -13,7 +13,7 @@
   top: 0;
   left: 0;
   height: 100vh;
-  padding: 3rem 2.5rem;
+  padding: clamp(1.25rem, 4vh, 3rem) 2.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -21,7 +21,10 @@
   text-align: center;
   background: transparent;
   overflow-y: auto;
+  /* `safe center` keeps content top-aligned instead of clipping the top
+     off-screen when it's taller than the panel. Plain center is the fallback. */
   justify-content: center;
+  justify-content: safe center;
   overflow-x: hidden;
   scrollbar-width: none;
 }
@@ -33,10 +36,12 @@
 .right-panel {
   margin-left: 30%;
   width: 70%;
-  padding: 6rem 4rem 4rem 4rem;
+  padding: 4rem 4rem 4rem 4rem;
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  /* Headings carry the accent colour now, so they no longer need a big gap to
+     read as a new section. */
+  gap: 2.5rem;
   background: transparent;
   overflow-x: hidden;
 }
@@ -47,12 +52,93 @@ body {
 
 
 /* ════════════════════════════════════════
+   BACKGROUND ORBS
+
+   Three soft masses that orbit slowly behind the content. Each one is a
+   radial-gradient (already soft, so no expensive blur filter) rotated about an
+   origin outside itself, which sweeps it in a wide circle. Colours come from
+   color-mix on the theme accent, so they follow every theme including custom.
+════════════════════════════════════════ */
+
+.orbs {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+  /* Fades with the mouse glow, which shares the Glow toggle. */
+  transition: opacity 0.4s ease;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+  animation: orb-orbit linear infinite;
+}
+
+.orb-1 {
+  width: 58vmax;
+  height: 58vmax;
+  top: -16vmax;
+  left: -12vmax;
+  transform-origin: 78% 128%;
+  animation-duration: 115s;
+  background: radial-gradient(circle,
+      color-mix(in srgb, var(--accent) var(--orb-tint), transparent) 0%,
+      transparent 66%);
+}
+
+.orb-2 {
+  width: 42vmax;
+  height: 42vmax;
+  top: 34vh;
+  right: -14vmax;
+  transform-origin: -20% 40%;
+  animation-duration: 155s;
+  animation-direction: reverse;
+  background: radial-gradient(circle,
+      color-mix(in srgb, var(--accent-hover) calc(var(--orb-tint) * 0.8), transparent) 0%,
+      transparent 68%);
+}
+
+.orb-3 {
+  width: 66vmax;
+  height: 66vmax;
+  bottom: -28vmax;
+  left: 22vw;
+  transform-origin: 30% -15%;
+  animation-duration: 190s;
+  background: radial-gradient(circle,
+      color-mix(in srgb, var(--bg-subtle) var(--orb-haze), transparent) 0%,
+      transparent 70%);
+}
+
+@keyframes orb-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Slow ambient motion is exactly what motion-sensitive readers turn off. */
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    animation: none;
+  }
+}
+
+
+/* ════════════════════════════════════════
    LEFT PANEL — IDENTITY
 ════════════════════════════════════════ */
 
 .photo {
-  width: 240px;
+  /* Scales both ways: 30vh is the driver (the panel is height-constrained, so
+     short or zoomed-in screens shrink it smoothly instead of clipping), 18vw
+     keeps it from outgrowing the panel on narrow-but-tall windows. */
+  width: clamp(140px, min(28vh, 18vw), 380px);
   height: auto;
+  flex-shrink: 0;
   display: block;
   border-radius: 4px;
 }
@@ -69,15 +155,16 @@ body {
 }
 
 .name {
-  font-size: 2rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.6vh, 2rem);
   color: var(--accent);
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
 .occupation {
-  color: var(--text);
-  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
   font-weight: 400;
 }
 
@@ -190,8 +277,8 @@ nav a.active {
   position: absolute;
   bottom: 110%;
   left: 0;
-  background: #2a2a2a;
-  border: 1px solid #444;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
   border-radius: 6px;
   padding: 0.4rem;
   display: flex;
@@ -212,36 +299,42 @@ nav a.active {
 .theme-menu button {
   background: none;
   border: none;
-  color: #aaaaaa;
+  color: var(--text-muted);
   padding: 0.4rem 1rem;
   cursor: pointer;
   border-radius: 4px;
   text-align: left;
   font-size: 0.9rem;
   font-family: inherit;
+  white-space: nowrap;
   transition: background 0.15s, color 0.15s;
 }
 
 .theme-menu button:hover {
-  background: #3a3a3a;
-  color: #eeeeee;
+  background: var(--border);
+  color: var(--text);
 }
 
 .theme-menu button.active {
-  background: #3a3a3a;
-  color: #e09b35;
+  background: var(--border);
+  color: var(--accent);
 }
 
 .theme-submenu-wrapper {
   position: relative;
+  /* Its sibling buttons are flex items of .theme-menu and stretch full width.
+     Without this the button inside here is a shrink-to-fit inline-block, and
+     the panel's inherited text-align: center nudges it out of line. */
+  display: flex;
+  flex-direction: column;
 }
 
 .theme-submenu {
   position: absolute;
   left: 100%;
   bottom: 0;
-  background: #2a2a2a;
-  border: 1px solid #444;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
   border-radius: 6px;
   padding: 0.4rem;
   display: flex;
@@ -252,10 +345,6 @@ nav a.active {
   transform: translateX(4px);
   transition: opacity 0.2s ease, transform 0.2s ease;
   min-width: 140px;
-}
-
-.has-submenu {
-  white-space: nowrap;
 }
 
 .theme-submenu.open {
@@ -274,8 +363,8 @@ nav a.active {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.95);
-  background: #2a2a2a;
-  border: 1px solid #444;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 1.5rem;
   display: flex;
@@ -285,7 +374,7 @@ nav a.active {
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
   z-index: 10000;
-  min-width: 220px;
+  min-width: 260px;
 }
 
 .custom-prompt.open {
@@ -295,7 +384,7 @@ nav a.active {
 }
 
 .custom-prompt h3 {
-  color: #eeeeee;
+  color: var(--text);
   font-size: 0.95rem;
   font-weight: normal;
   letter-spacing: 0.05em;
@@ -305,7 +394,7 @@ nav a.active {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #aaaaaa;
+  color: var(--text-muted);
   font-size: 0.85rem;
 }
 
@@ -320,8 +409,8 @@ nav a.active {
 
 .custom-prompt button {
   background: none;
-  border: 1px solid #444;
-  color: #aaaaaa;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
   padding: 0.4rem;
   border-radius: 4px;
   cursor: pointer;
@@ -331,8 +420,8 @@ nav a.active {
 }
 
 .custom-prompt button:hover {
-  background: #3a3a3a;
-  color: #eeeeee;
+  background: var(--border);
+  color: var(--text);
 }
 
 
@@ -340,33 +429,64 @@ nav a.active {
    RIGHT PANEL — GENERAL SECTIONS
 ════════════════════════════════════════ */
 
+/* Section headings are signposts, not content, so they get hierarchy from form
+   rather than from another colour: small, uppercase, widely tracked, in the
+   muted tone, with a hairline running out to the edge of the text column. The
+   rule is the point — it's the only horizontal division on the page, and
+   without it every block is the same width in the same column, which is what
+   made the layout feel flat. */
 section h2 {
-  font-size: 1.3rem;
-  font-weight: 500;
-  margin-bottom: 1rem;
-  color: var(--text);
-  padding-left: 0.75rem;
-  border-left: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: var(--measure);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1.75rem;
 }
 
+section h2::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Page opener — the one display-scale element per page, and the only heading
+   that keeps the serif. */
 .bio-heading {
-  padding-left: 0;
-  border-left: none;
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.2vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+.bio-heading::after {
+  content: none;
 }
 
 section p {
-  color: var(--text-muted);
-  max-width: 720px;
-  line-height: 1.7;
-  margin-bottom: 1rem;
+  color: var(--text);
+  max-width: var(--measure);
+  line-height: 1.75;
+  margin-bottom: 1.1rem;
 }
 
+/* Subtitle under a page opener — one step down, never body copy. */
 .lead {
-  color: var(--text);
-  font-size: 1.05rem;
+  color: var(--text-muted);
+  font-size: 1rem;
   font-weight: 400;
-  margin-bottom: 0.75rem;
-  max-width: 720px;
+  margin-bottom: 2rem;
+  max-width: var(--measure);
   line-height: 1.7;
 }
 
@@ -376,6 +496,9 @@ section p {
 ════════════════════════════════════════ */
 
 .edu-entry {
+  /* Bounds the space-between row below, so the year lands on the same right
+     edge as the body copy and the section heading rules. */
+  max-width: var(--measure);
   margin-bottom: 1.25rem;
 }
 
@@ -401,7 +524,7 @@ section p {
 .edu-degree {
   color: var(--text-muted);
   font-size: 0.88rem;
-  max-width: 720px;
+  max-width: var(--measure);
 }
 
 
@@ -445,6 +568,35 @@ section p {
 
 .project-featured:last-child {
   border-bottom: none;
+}
+
+/* Card that sits directly under the paragraph it belongs to, instead of in a
+   separate Featured Work list. Carries only the links and the stack: the
+   paragraph above already told the story, so a description here would just say
+   the same thing twice. The accent rule on the left and the recessed surface
+   tie it to that paragraph rather than reading as a new section. */
+.project-inline {
+  max-width: var(--measure);
+  /* Tight underneath so it reads as the header for the paragraph it precedes. */
+  margin: 0 0 0.85rem;
+  padding: 0.8rem 1.25rem;
+  gap: 0.4rem;
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--bg-subtle) 45%, transparent);
+}
+
+/* Only cards that follow a paragraph start a new block and need the gap. The
+   first card in a section follows the heading, so it stays flush. */
+p + .project-inline {
+  margin-top: 2.25rem;
+}
+
+/* Metadata, not a link — keeping it accent-blue made the card read as three
+   rows of the same colour. */
+.project-inline .project-stack {
+  color: var(--text-muted);
 }
 
 .project-header {
@@ -493,10 +645,10 @@ a.project-name-linked:hover {
 }
 
 .project-desc {
-  color: var(--text-muted);
-  font-size: 0.92rem;
-  line-height: 1.7;
-  max-width: 680px;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  max-width: var(--measure);
 }
 
 .project-stack {
@@ -569,10 +721,10 @@ a.project-name-linked:hover {
 }
 
 .project-small-desc {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  max-width: 680px;
-  line-height: 1.6;
+  font-size: 0.88rem;
+  color: var(--text);
+  max-width: var(--measure);
+  line-height: 1.7;
   margin-bottom: 0;
 }
 
@@ -584,10 +736,18 @@ a.project-name-linked:hover {
 footer {
   margin-left: 30%;
   width: 70%;
-  padding: 2rem 4rem;
-  border-top: 1px solid var(--border);
+  padding: 0 4rem 2rem;
   color: var(--text-muted);
   font-size: 0.8rem;
+}
+
+/* The rule and the colophon live on the paragraph, not the footer, so they're
+   bounded by --measure. Centring on the full panel width put the text well to
+   the right of the text column it sits under. */
+footer p {
+  max-width: var(--measure);
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
   text-align: center;
 }
 

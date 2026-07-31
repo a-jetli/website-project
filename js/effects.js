@@ -1,3 +1,11 @@
+// Ambient background orbs. Built here rather than in markup so the three pages
+// stay identical, and styled in sections.css off the theme's accent colour.
+const orbs = document.createElement('div');
+orbs.className = 'orbs';
+orbs.setAttribute('aria-hidden', 'true');
+orbs.innerHTML = '<span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>';
+document.body.prepend(orbs);
+
 let glowEnabled = localStorage.getItem('glow') !== 'false';
 
 const glow = document.createElement('div');
@@ -21,6 +29,7 @@ function updateGlow(e) {
 
 function setGlowVisibility() {
   glow.style.opacity = glowEnabled ? '1' : '0';
+  orbs.style.opacity = glowEnabled ? '1' : '0';
   const btn = document.getElementById('glow-toggle');
   if (btn) btn.textContent = glowEnabled ? 'Glow: On' : 'Glow: Off';
 }

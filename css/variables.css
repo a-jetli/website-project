@@ -1,34 +1,58 @@
+/* Type, shared by every theme: Inter for everything, Lora reserved for the
+   page opener and the name in the sidebar. Themes below set colour only. */
+:root {
+    --font: 'Inter', sans-serif;
+    --font-display: 'Lora', Georgia, serif;
+    /* One shared text column width. Deliberately rem, not ch: ch resolves
+       against each element's own font-size, so the smaller project text would
+       otherwise wrap narrower than the body copy on the home page. */
+    --measure: 55rem;
+}
+
+/* Default theme — the original near-black. Body copy is pulled back slightly
+   from the old #c8cdd8 (12.0:1) to 10.7:1 to take some edge off the halation of
+   light-on-dark, and --text-muted is lifted from 4.0:1 to 6.2:1 since it was
+   below the WCAG AA floor before. --text carries body copy, --text-muted is
+   metadata only. */
 :root {
     --bg: #0d0f14;
     --bg-subtle: #1e2435;
-    --text: #c8cdd8;
-    --text-muted: #6b7280;
-    --accent: #60a5fa;
-    --accent-hover: #93c5fd;
+    --text: #bcc2cd;
+    --text-muted: #8b93a1;
+    --accent: #6ba7f5;
+    --accent-hover: #9ec6fb;
     --border: #252a38;
-    --font: 'Inter', sans-serif;
+    /* Strength of the background orbs: --orb-tint for the two accent-coloured
+       ones, --orb-haze for the neutral mass. */
+    --orb-tint: 20%;
+    --orb-haze: 70%;
 }
 
 [data-theme="light"] {
     --bg: #ffffff;
-    --bg-subtle: #f0f0f0;
-    --text: #000000;
-    --text-muted: #666666;
-    --accent: #0077cc;
-    --accent-hover: #005fa3;
-    --border: #cccccc;
-    --font: 'Inter', sans-serif;
+    --bg-subtle: #f3f4f6;
+    --text: #15181d;
+    --text-muted: #5b6470;
+    --accent: #1263c4;
+    --accent-hover: #0a4a99;
+    --border: #dcdfe4;
+    /* Orbs read much louder against white, so they're dialled back here. */
+    --orb-tint: 9%;
+    --orb-haze: 40%;
 }
 
-[data-theme="coral"] {
-    --bg: #1a0f0d;
-    --bg-subtle: #2a1812;
-    --text: #ffb578;
-    --text-muted: #cf5376;
-    --accent: #ff8559;
-    --accent-hover: #e65447;
-    --border: #3d1f18;
-    --font: 'Lora', serif;
+/* Warm Autumn Glow — Deep Space Blue ground, molten amber and honey gold on
+   top, soft ivory for the copy, deep crimson for the hairlines. Flag Red
+   (#d62828) is only 2.8:1 on this background, so it appears darkened as the
+   border rather than as text. */
+[data-theme="autumn"] {
+    --bg: #003049;
+    --bg-subtle: #00405f;
+    --text: #eae2b7;
+    --text-muted: #b3ab84;
+    --accent: #f77f00;
+    --accent-hover: #fcbf49;
+    --border: #7a2a2a;
 }
 
 [data-theme="wisteria"] {
@@ -39,7 +63,6 @@
     --accent: #ed80e9;
     --accent-hover: #d3d3ff;
     --border: #3d2e60;
-    --font: 'Lora', serif;
 }
 
 [data-theme="stormy"] {
@@ -50,16 +73,16 @@
     --accent: #88bdf2;
     --accent-hover: #bdddfc;
     --border: #2e3f4f;
-    --font: 'Lora', serif;
 }
 
+/* Custom starts from the default dark theme, so anything the picker doesn't
+   set (and --accent-hover, which it never sets) still lands somewhere sane. */
 [data-theme="custom"] {
-    --bg: #ffffff;
-    --bg-subtle: #f0f0f0;
-    --text: #000000;
-    --text-muted: #666666;
-    --accent: #0077cc;
-    --accent-hover: #005fa3;
-    --border: #cccccc;
-    --font: 'Lora', serif;
+    --bg: #0d0f14;
+    --bg-subtle: #1e2435;
+    --text: #bcc2cd;
+    --text-muted: #8b93a1;
+    --accent: #6ba7f5;
+    --accent-hover: #9ec6fb;
+    --border: #252a38;
 }
