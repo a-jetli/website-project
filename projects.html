@@ -7,18 +7,18 @@
   <title>AJ | Projects</title>
   <meta name="description" content="Projects by Ansh Jetli — software and AI engineering work.">
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/sections.css">
   <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230d0f14'/><text y='72' x='50' text-anchor='middle' font-size='52' font-family='Georgia,serif' font-weight='600' fill='%2360a5fa'>AJ</text></svg>">
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230d0f14'/><text y='72' x='50' text-anchor='middle' font-size='52' font-family='Georgia,serif' font-weight='600' fill='%236ba7f5'>AJ</text></svg>">
   <meta property="og:title" content="Ansh Jetli | Projects">
   <meta property="og:description" content="Some of Ansh's Projects">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://a-jetli.github.io/projects.html">
+  <meta property="og:url" content="https://ajetli.com/projects.html">
 </head>
 
 <body>
@@ -27,7 +27,7 @@
       <img src="header_photo.jpg" class="photo" alt="Ansh Jetli">
       <div class="identity">
         <h1 class="name">Ansh Jetli</h1>
-        <p class="occupation">CS Student at Rutgers University</p>
+        <p class="occupation">CS Student @ Rutgers New Brunswick</p>
       </div>
       <div class="nav-footer">
         <nav>
@@ -52,9 +52,9 @@
             <button data-theme="light">Light</button>
             <button data-theme="dark">Dark</button>
             <div class="theme-submenu-wrapper">
-              <button class="has-submenu">Other ⏩</button>
+              <button class="has-submenu">Other &#9656;</button>
               <div class="theme-submenu" id="theme-submenu">
-                <button data-theme="coral">Coral</button>
+                <button data-theme="autumn">Autumn</button>
                 <button data-theme="wisteria">Wisteria</button>
                 <button data-theme="stormy">Storm</button>
                 <button id="custom-trigger">— Custom —</button>
@@ -74,68 +74,69 @@
 
         <div class="project-featured">
           <div class="project-header">
-            <a href="https://a-jetli.github.io/rag-paper-demo-live/" target="_blank" class="project-name-linked">Agentic
+            <a href="https://github.com/a-jetli/rag-paper-pipeline" target="_blank" class="project-name-linked">Agentic
               RAG Pipeline</a>
+            <span class="project-tag">May 2026</span>
             <span class="project-links">
-              <a href="https://github.com/a-jetli/rag-paper-pipeline" target="_blank">GitHub <i
+              <a href="https://rag.ajetli.com" target="_blank">Live demo <i
                   class="fas fa-arrow-up-right-from-square"></i></a>
             </span>
           </div>
-          <p class="project-desc">Retrieval-augmented generation pipeline over 1000 arXiv AI/ML papers. Combines
-            sentence-boundary chunking, hybrid BM25 + semantic retrieval fused via reciprocal rank fusion, and a local cross-encoder reranker for relevance scoring rather than
-            similarity proxies. A LangGraph agent decomposes compound queries, grades whether retrieved context is sufficient, and retries with reformulated searches when it
-            falls short. Served through FastAPI on Hugging Face Spaces, with the reranker running locally.</p>
-          <span class="project-stack">Python · OpenAI API · ChromaDB · LangGraph · FastAPI · Flashrank ·
-            BM25</span>
+          <p class="project-desc">A RAG pipeline working through hybrid retrieval over 1000 arXiv AI/ML papers, combining OpenAI embedding search with BM25 and reciprocal rank fusion to aggregate keywords, and reranking a 24 candidate pool with a small local cross encoder to score relevance directly instead of through similarity. A five node LangGraph setup decomposes the query into focused subqueries, grades retrieved context for each on sufficiency, allows for reformulation and retries, and accumulates deduplicated context across passes. Compound queries batch every subquery embedding into a single OpenAI request where each retrieval and reranking path is run concurrently. Deployed as Dockerized FastAPI service on HuggingFace Spaces, loading prebuilt BM25 index and ChromaDB collection at startup rather than rebuilding on the deployed path. </p>
+          <span class="project-stack">Python · LangGraph · FastAPI · ChromaDB · OpenAI API · Pydantic · BM25</span>
         </div>
 
         <div class="project-featured">
           <div class="project-header">
-            <a href="https://github.com/a-jetli/Adventure-Game-Project" target="_blank"
-              class="project-name-linked">Text Based LLM Adventure Game</a>
+            <a href="https://github.com/a-jetli/lastfm-analytics" target="_blank"
+              class="project-name-linked">Rotation</a>
+            <span class="project-tag">July 2026</span>
             <span class="project-links">
-              <a href="https://github.com/a-jetli/Adventure-Game-Project" target="_blank">GitHub <i
+              <a href="https://rotation.ajetli.com" target="_blank">Live demo <i
                   class="fas fa-arrow-up-right-from-square"></i></a>
             </span>
           </div>
-          <p class="project-desc">A lofi text adventure where an LLM acts as dungeon master, responding to natural
-            language input with dynamically generated narrative, like talking out your own adventure novel. Features a
-            simple combat system and a Pygame based CLI-style UI. The engine owns authoritative game state and applies
-            changes only after Pydantic schema validation, preventing hallucinations. Context is managed across an
-            injected engine state, a sliding hot context window with summarization compression, and a markdown file
-            based cold storage for world logs and NPC histories retrieved on demand. An evaluation harness runs
-            regression test cases against the LLM output contract after any system prompt change.</p>
-          <span class="project-stack">Python · OpenAI API · Pygame · Pydantic · Prompt Engineering</span>
+          <p class="project-desc">A listening history and analytics tool for your listening data, built on Last.fm's API. Syncs all scrobble history data to PostgreSQL database, and runs background threads periodically to sync on new data, or on manual refresh. Uses ON CONFLICT checks and advisory locks to keep overlapping jobs retry safe. Contains 16 analytics endpoints that lean on common table expressions and window functions to gain key insights like streak and binge detection through SQL queries rather than processing full histories in Python app. Filters through user-generated genre tags through curated blacklist and vectorizes remaining tags to use in TF-IDF, cosine similarity based recommendation system, refreshing periodically with a 90 day recency limit for listening history based recommendations. Contains a test suite that runs against a disposable PostgreSQL instance on push and only deploys to live if it passes tests through GitHub Actions. 
+</p>
+          <span class="project-stack">Python · FastAPI · PostgreSQL · Docker Compose · Amazon EC2 · GitHub
+            Actions</span>
         </div>
 
         <div class="project-featured">
           <div class="project-header">
-            <span class="project-name">MicroCaml Interpreter</span>
-            <span class="project-tag">Coursework</span>
+            <a href="https://github.com/a-jetli/Adventure-Game-Project" target="_blank" class="project-name-linked">LLM
+              Text RPG Engine</a>
+            <span class="project-tag">Ongoing</span>
           </div>
-          <p class="project-desc">A working interpreter for a subset of OCaml, written in OCaml. Built a complete
-            language pipeline with a regex based lexer, a recursive descent parser handling operator precedence and
-            nested expressions, and a Hindley-Milner type inference engine using constraint generation and Robinson's
-            unification algorithm. Built as part of CS314 Principles of Programming Languages.</p>
-          <span class="project-stack">OCaml · Recursive Descent Parsing · Type Inference</span>
-        </div>
-
-        <div class="project-featured">
-          <div class="project-header">
-            <span class="project-name">TailoRes</span>
-            <span class="project-tag">HackRU Fall 2025 · Team of 3</span>
-          </div>
-          <p class="project-desc">Full-stack web app that processes an uploaded resume PDF, analyzes a job description
-            with Google Gemini, selects the most relevant experiences, and rewrites the resume for stronger alignment.
-            Includes a validation layer that matches AI output against the original resume data to catch hallucinated
-            content and fabricated metrics and forces output adherence to MIT resume standards. Built in 24 hours as
-            part of HackRU Fall 2025 with two team members.</p>
-          <span class="project-stack">Next.js · TypeScript · Supabase · Google Gemini · React PDF</span>
+          <p class="project-desc">An open ended text based RPG with a CLI style TUI written in Python and Textual. Gives total narrative freedom by employing LLM as narrator and dungeon master, while giving full control over game state and mechanics to Python based engine. Genre agnostic, meaning you can prompt it for a default fantasy world, or ask for a setting of your choice. the mechanics are abstract. Uses Pydantic based OpenAI structured output schema to enforce response shape and types from LLM responses to seamlessly interface with engine. Context and history logging is built as a three tiered retrieval pipeline, including a verbatim retelling of the most recent "hot context" turns, a rolling summary of recent turns before that that is actively summarized in the background, and old "cold context" logs that have been summarized but moved back to avoid degrading quality through repetitive compaction. Features templates and instructions for engine to introduce pre-written random events, NPC personalities, and more. Includes a journal, character creation and importing/exporting, and a combat and quest system. </p>
+          <span class="project-stack">Python · OpenAI API · Pydantic · Textual</span>
         </div>
       </section>
 
       <section id="other-projects">
         <h2>Other Projects</h2>
+
+        <div class="project-small">
+          <div class="project-small-header">
+            <span class="project-name-small static">MicroCaml Interpreter</span>
+            <span class="project-stack-small">OCaml · Type Inference</span>
+          </div>
+          <p class="project-small-desc">An interpreter for a subset of OCaml called MicroCaml, written in OCaml: a regex based lexer, a
+            recursive descent parser handling operator precedence and nested expressions, and a Hindley-Milner type
+            inference engine using constraint generation and Robinson's unification algorithm. Built as part of CS314
+            Principles of Programming Languages.</p>
+        </div>
+
+        <div class="project-small">
+          <div class="project-small-header">
+            <span class="project-name-small static">TailoRes</span>
+            <span class="project-stack-small">Next.js · TypeScript · Supabase · Google Gemini</span>
+          </div>
+          <p class="project-small-desc">Full stack web app that reads an uploaded resume PDF, analyzes a job description
+            with Google Gemini, and rewrites the resume for stronger alignment, with a validation layer that matches the
+            output against the original resume data to catch hallucinated content and fabricated metrics. Built in 24
+            hours at HackRU Fall 2025 with two teammates.</p>
+        </div>
 
         <div class="project-small">
           <div class="project-small-header">
@@ -148,7 +149,7 @@
           <p class="project-small-desc">This site, designed and built from scratch with no frameworks. Features a
             persistent fixed sidebar layout, a multi-theme system with local storage persistence and a custom color
             picker, responsive mobile layout, and smooth page transitions. Built to learn fundamentals and have some fun
-            (try making your own custom theme!). Design was inspired by <a href="https://brittanychiang.com"
+            - try making your own custom theme! Design was inspired by <a href="https://brittanychiang.com"
               target="_blank">Brittany Chiang</a>'s portfolio site.</p>
         </div>
 
@@ -162,7 +163,7 @@
             <span class="project-stack-small">Python · Pygame</span>
           </div>
           <p class="project-small-desc">Interactive visualization of Repeated Forward, Backward, and Adaptive A*
-            pathfinding algorithms on randomly generated grids. Built upon coursework from CS440 Intro to Artificial
+            pathfinding algorithms on randomly generated grids. Made to help understand foundational search algorithms. Built upon coursework from CS440 Intro to Artificial
             Intelligence.
           </p>
         </div>
@@ -187,12 +188,12 @@
 
   <div class="custom-prompt" id="custom-prompt">
     <h3>Custom Theme</h3>
-    <label>Background<input type="color" data-var="--bg" value="#ffffff"></label>
-    <label>Surface<input type="color" data-var="--bg-subtle" value="#f0f0f0"></label>
-    <label>Text<input type="color" data-var="--text" value="#000000"></label>
-    <label>Muted Text<input type="color" data-var="--text-muted" value="#666666"></label>
-    <label>Accent<input type="color" data-var="--accent" value="#0077cc"></label>
-    <label>Border<input type="color" data-var="--border" value="#cccccc"></label>
+    <label>Page background<input type="color" data-var="--bg" value="#0d0f14"></label>
+    <label>Panels &amp; cards<input type="color" data-var="--bg-subtle" value="#1e2435"></label>
+    <label>Body text<input type="color" data-var="--text" value="#bcc2cd"></label>
+    <label>Headings &amp; labels<input type="color" data-var="--text-muted" value="#8b93a1"></label>
+    <label>Links &amp; accents<input type="color" data-var="--accent" value="#6ba7f5"></label>
+    <label>Lines &amp; borders<input type="color" data-var="--border" value="#252a38"></label>
     <button id="custom-apply">Apply</button>
     <button id="custom-close">Cancel</button>
   </div>
