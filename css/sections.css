@@ -529,6 +529,23 @@ section p {
 
 
 /* ════════════════════════════════════════
+   RIGHT PANEL — RESUME
+════════════════════════════════════════ */
+
+.resume-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  align-self: flex-start;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+
+/* ════════════════════════════════════════
    RIGHT PANEL — CONTACT
 ════════════════════════════════════════ */
 
