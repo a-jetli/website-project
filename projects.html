@@ -19,6 +19,10 @@
   <meta property="og:description" content="Some of Ansh's Projects">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ajetli.com/projects.html">
+  <!-- Re-enable once a card is committed; og-card.png is currently gitignored.
+  <meta property="og:image" content="https://ajetli.com/og-card.png">
+  <meta property="og:image:alt" content="Ansh Jetli, CS student at Rutgers New Brunswick, focused on applied AI and backend engineering in Python.">
+  -->
 </head>
 
 <body>
@@ -82,7 +86,7 @@
                   class="fas fa-arrow-up-right-from-square"></i></a>
             </span>
           </div>
-          <p class="project-desc">A RAG pipeline working through hybrid retrieval over 1000 arXiv AI/ML papers, combining OpenAI embedding search with BM25 and reciprocal rank fusion to aggregate keywords, and reranking a 24 candidate pool with a small local cross encoder to score relevance directly instead of through similarity. A five node LangGraph setup decomposes the query into focused subqueries, grades retrieved context for each on sufficiency, allows for reformulation and retries, and accumulates deduplicated context across passes. Compound queries batch every subquery embedding into a single OpenAI request where each retrieval and reranking path is run concurrently. Deployed as Dockerized FastAPI service on HuggingFace Spaces, loading prebuilt BM25 index and ChromaDB collection at startup rather than rebuilding on the deployed path. </p>
+          <p class="project-desc">A RAG pipeline working through hybrid retrieval over 1000 arXiv AI/ML papers, combining OpenAI embedding search with BM25 and reciprocal rank fusion to aggregate keywords, and reranking a 24 candidate pool with a small local cross encoder to score relevance directly instead of through similarity. A five node LangGraph setup decomposes the query into focused subqueries, grades retrieved context for each on sufficiency, allows for reformulation and retries, and accumulates deduplicated context across passes. Compound queries batch every subquery embedding into a single OpenAI request where each retrieval and reranking path is run concurrently. Deployed as Dockerized FastAPI service on Hugging Face Spaces, loading prebuilt BM25 index and ChromaDB collection at startup rather than rebuilding on the deployed path. </p>
           <span class="project-stack">Python · LangGraph · FastAPI · ChromaDB · OpenAI API · Pydantic · BM25</span>
         </div>
 
@@ -108,7 +112,7 @@
               Text RPG Engine</a>
             <span class="project-tag">Ongoing</span>
           </div>
-          <p class="project-desc">An open ended text based RPG with a CLI style TUI written in Python and Textual. Gives total narrative freedom by employing LLM as narrator and dungeon master, while giving full control over game state and mechanics to Python based engine. Genre agnostic, meaning you can prompt it for a default fantasy world, or ask for a setting of your choice. the mechanics are abstract. Uses Pydantic based OpenAI structured output schema to enforce response shape and types from LLM responses to seamlessly interface with engine. Context and history logging is built as a three tiered retrieval pipeline, including a verbatim retelling of the most recent "hot context" turns, a rolling summary of recent turns before that that is actively summarized in the background, and old "cold context" logs that have been summarized but moved back to avoid degrading quality through repetitive compaction. Features templates and instructions for engine to introduce pre-written random events, NPC personalities, and more. Includes a journal, character creation and importing/exporting, and a combat and quest system. </p>
+          <p class="project-desc">An open ended text based RPG with a CLI style TUI written in Python and Textual. Gives total narrative freedom by employing LLM as narrator and dungeon master, while giving full control over game state and mechanics to Python based engine. Genre agnostic, meaning you can prompt it for a default fantasy world, or ask for a setting of your choice. The mechanics are abstract. Uses Pydantic based OpenAI structured output schema to enforce response shape and types from LLM responses to seamlessly interface with engine. Context and history logging is built as a three tiered retrieval pipeline, including a verbatim retelling of the most recent "hot context" turns, a rolling summary of recent turns before that that is actively summarized in the background, and old "cold context" logs that have been summarized but moved back to avoid degrading quality through repetitive compaction. Features templates and instructions for engine to introduce pre-written random events, NPC personalities, and more. Includes a journal, character creation and importing/exporting, and a combat and quest system. </p>
           <span class="project-stack">Python · OpenAI API · Pydantic · Textual</span>
         </div>
       </section>
