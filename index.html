@@ -83,8 +83,8 @@
         <p>
           My coursework spans from basics like data structures and algorithms to specifics like software methodology,
           intro to artificial intelligence, data science topics, and programming language theory. I've studied in
-          languages like Java, C, and OCaml, as well as used popular libraries like NumPy and Pandas. Most of my personal work
-          now goes into applied AI and backend work in Python.
+          languages like Java, C, Python and taken courses using OCaml and R, as well as used popular libraries like NumPy and Pandas. Most of my personal work
+          now is in applied AI and backend work in Python.
         </p>
       </section>
 
@@ -134,12 +134,15 @@
         </div>
 
         <p>
-          Before that I worked on an agentic RAG pipeline over 1000 arXiv papers spanning many topics in AI, which I personally
-          use to learn by asking questions on new or misunderstood topics or formulas. It works on a LangGraph agent that breaks queries into
-          subqueries, and when fetching relevant chunks it reranks and checks if a sufficient answer can be formed. If not, it tries again. You can
+          Before that I worked on an agentic RAG pipeline over 1000 research papers spanning topics in AI, which I personally
+          use tas a learning tool. I chose RAG rather than a normal LLM call not only to learn the technology
+          but because it helps avoid hallucination and reliance on training data. The knowledge base can also be quickly and cheaply expanded in the future.
+           You can ask it any question on AI/ML related topics, and it will only formulate an answer
+          based on its source papers, which it can cite and source for you. It works on a LangGraph agent that breaks queries into
+          subqueries, fetches relevant chunks, reranks them, and checks if a sufficient answer can be formed. If not, it tries again. You can
           demo it yourself at
           <a href="https://rag.ajetli.com" target="_blank">rag.ajetli.com</a>, or read more about it under the architecture tab. You can also
-          view every single paper used under the papers tab.
+          view all the source papers under the papers tab.
         </p>
 
         <div class="project-featured project-inline">
@@ -151,11 +154,12 @@
         </div>
 
         <p>
-          An ongoing project of mine is a presently unnamed text based RPG game where I had the idea to make an LLM act
+          An ongoing project of mine is a presently unnamed text based RPG game where an LLM acts
           as a world builder and narrator, almost like a dungeon master. The idea was to be able to play through your own book,
-          where narratively you were the main character but you did not dictate the state of the world beyond. However, to make this work as a full scale
+          where narratively you were the main character but you did not dictate the state of the world beyond. You are free to make
+          your own actions, and the world should respond in kind. However, to make this work as a full scale
           project I had to figure out logging and retrieval strategies. My solution uses a deterministic Python engine
-          that owns the game state and an LLM that outputs game state alterations in an enforced structured output
+          that owns the game state and an LLM that returns game state alterations in an enforced structured output
           format, allowing the engine to receive and resolve all changes with no risk of hallucination. I'm constantly
           iterating on this project and you can read more about it or look through the code at the GitHub repo linked
           above.
@@ -183,14 +187,14 @@
       <section id="interests">
         <h2>Hobbies</h2>
         <p>When I'm not busy with school or projects, I enjoy reading and playing video games. I'm a fan of anything in
-          the fantasy genre, and right now I'm playing a lot of indie games. I've also been a long time fan of
-          multiplayer games like Destiny 2 or Overwatch. I'm also really into music, and I'm learning how to play the
+          the fantasy genre, and right now I'm playing a lot of indie games. I'm a long time fan of
+          multiplayer games like Destiny 2 and Overwatch. I'm also really into music, and I'm learning how to play the
           guitar!
         </p>
       </section>
       <section id="contact">
         <h2>Contact</h2>
-        <p>The best way to reach me is via email or LinkedIn. Please feel free to reach out if you think I'm a good fit for a role, or if you'd like to learn more.</p>
+        <p>The best way to reach me is via email or LinkedIn. Please feel free to reach out for roles or to learn more.</p>
         <div class="contact-links">
           <a href="https://github.com/a-jetli" target="_blank" aria-label="GitHub" title="GitHub">
             <i class="fab fa-github"></i>
