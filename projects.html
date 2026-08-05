@@ -87,7 +87,15 @@
                   class="fas fa-arrow-up-right-from-square"></i></a>
             </span>
           </div>
-          <p class="project-desc">A RAG pipeline working through hybrid retrieval over 1000 arXiv AI/ML papers, combining OpenAI embedding search with BM25 and reciprocal rank fusion to aggregate keywords, and reranking a 24 candidate pool with a small local cross encoder to score relevance directly instead of through similarity. A five node LangGraph setup decomposes the query into focused subqueries, grades retrieved context for each on sufficiency, allows for reformulation and retries, and accumulates deduplicated context across passes. Compound queries batch every subquery embedding into a single OpenAI request where each retrieval and reranking path is run concurrently. Deployed as Dockerized FastAPI service on Hugging Face Spaces, loading prebuilt BM25 index and ChromaDB collection at startup rather than rebuilding on the deployed path. </p>
+          <p class="project-desc">A RAG pipeline working through hybrid retrieval over 1000 arXiv AI/ML papers,
+            combining OpenAI embedding search with BM25 and reciprocal rank fusion to aggregate keywords, and reranking
+            a 24 candidate pool with a small local cross encoder to score relevance directly instead of through
+            similarity. A five node LangGraph setup decomposes the query into focused subqueries, grades retrieved
+            context for each on sufficiency, allows for reformulation and retries, and accumulates deduplicated context
+            across passes. Compound queries batch every subquery embedding into a single OpenAI request where each
+            retrieval and reranking path is run concurrently. Deployed as Dockerized FastAPI service on Hugging Face
+            Spaces, loading prebuilt BM25 index and ChromaDB collection at startup rather than rebuilding on the
+            deployed path. </p>
           <span class="project-stack">Python · LangGraph · FastAPI · ChromaDB · OpenAI API · Pydantic · BM25</span>
         </div>
 
@@ -101,8 +109,16 @@
                   class="fas fa-arrow-up-right-from-square"></i></a>
             </span>
           </div>
-          <p class="project-desc">A listening history and analytics tool for your listening data, built on Last.fm's API. Syncs all scrobble history data to PostgreSQL database, and runs background threads periodically to sync on new data, or on manual refresh. Uses ON CONFLICT checks and advisory locks to keep overlapping jobs retry safe. Contains 16 analytics endpoints that lean on common table expressions and window functions to gain key insights like streak and binge detection through SQL queries rather than processing full histories in Python app. Filters through user-generated genre tags through curated blacklist and vectorizes remaining tags to use in TF-IDF, cosine similarity based recommendation system, refreshing periodically with a 90 day recency limit for listening history based recommendations. Contains a test suite that runs against a disposable PostgreSQL instance on push and only deploys to live if it passes tests through GitHub Actions. 
-</p>
+          <p class="project-desc">A listening history and analytics tool for your listening data, built on Last.fm's
+            API. Syncs all scrobble history data to PostgreSQL database, and runs background threads periodically to
+            sync on new data, or on manual refresh. Uses ON CONFLICT checks and advisory locks to keep overlapping jobs
+            retry safe. Contains 16 analytics endpoints that lean on common table expressions and window functions to
+            gain key insights like streak and binge detection through SQL queries rather than processing full histories
+            in Python app. Filters through user-generated genre tags through curated blacklist and vectorizes remaining
+            tags to use in TF-IDF, cosine similarity based recommendation system, refreshing periodically with a 90 day
+            recency limit for listening history based recommendations. Contains a test suite that runs against a
+            disposable PostgreSQL instance on push and only deploys to live if it passes tests through GitHub Actions.
+          </p>
           <span class="project-stack">Python · FastAPI · PostgreSQL · Docker Compose · Amazon EC2 · GitHub
             Actions</span>
         </div>
@@ -113,7 +129,17 @@
               Text RPG Engine</a>
             <span class="project-tag">Ongoing</span>
           </div>
-          <p class="project-desc">An open ended text based RPG with a CLI style TUI written in Python and Textual. Gives total narrative freedom by employing LLM as narrator and dungeon master, while giving full control over game state and mechanics to Python based engine. Genre agnostic, meaning you can prompt it for a default fantasy world, or ask for a setting of your choice. The mechanics are abstract. Uses Pydantic based OpenAI structured output schema to enforce response shape and types from LLM responses to seamlessly interface with engine. Context and history logging is built as a three tiered retrieval pipeline, including a verbatim retelling of the most recent "hot context" turns, a rolling summary of recent turns before that that is actively summarized in the background, and old "cold context" logs that have been summarized but moved back to avoid degrading quality through repetitive compaction. Features templates and instructions for engine to introduce pre-written random events, NPC personalities, and more. Includes a journal, character creation and importing/exporting, and a combat and quest system. </p>
+          <p class="project-desc">An open ended text based RPG with a CLI style TUI written in Python and Textual. Gives
+            total narrative freedom by employing LLM as narrator and dungeon master, while giving full control over game
+            state and mechanics to Python based engine. Genre agnostic, meaning you can prompt it for a default fantasy
+            world, or ask for a setting of your choice. The mechanics are abstract. Uses Pydantic based OpenAI
+            structured output schema to enforce response shape and types from LLM responses to seamlessly interface with
+            engine. Context and history logging is built as a three tiered retrieval pipeline, including a verbatim
+            retelling of the most recent "hot context" turns, a rolling summary of recent turns before that which is
+            actively summarized in the background, and old "cold context" logs that have been summarized but moved back
+            to avoid degrading quality through repetitive compaction. Features templates and instructions for engine to
+            introduce pre-written random events, NPC personalities, and more. Includes a journal, character creation and
+            importing/exporting, and a combat and quest system. </p>
           <span class="project-stack">Python · OpenAI API · Pydantic · Textual</span>
         </div>
       </section>
@@ -121,16 +147,19 @@
       <section id="other-projects">
         <h2>Other Projects</h2>
 
+
         <div class="project-small">
           <div class="project-small-header">
-            <span class="project-name-small static">MicroCaml Interpreter</span>
-            <span class="project-stack-small">OCaml · Type Inference</span>
+            <span class="project-name-small static">Photo Management App</span>
+            <span class="project-stack-small">Java · JavaFX · Android</span>
           </div>
-          <p class="project-small-desc">An interpreter for a subset of OCaml called MicroCaml, written in OCaml: a regex based lexer, a
-            recursive descent parser handling operator precedence and nested expressions, and a Hindley-Milner type
-            inference engine using constraint generation and Robinson's unification algorithm. Built as part of CS314
-            Principles of Programming Languages.</p>
+          <p class="project-small-desc">Fullstack desktop and Android application for multi user photo organization.
+            Designed with MVC architecture separating FXML views from controllers, custom Java Serialization persistence
+            layer for local storage, and a central navigation system tracking session state across views. Core
+            functionality ported to a native Android application. Built in a team of two as part of CS213 Software
+            Methodology.</p>
         </div>
+
 
         <div class="project-small">
           <div class="project-small-header">
@@ -141,6 +170,18 @@
             with Google Gemini, and rewrites the resume for stronger alignment, with a validation layer that matches the
             output against the original resume data to catch hallucinated content and fabricated metrics. Built in 24
             hours at HackRU Fall 2025 with two teammates.</p>
+        </div>
+
+        <div class="project-small">
+          <div class="project-small-header">
+            <span class="project-name-small static">MicroCaml Interpreter</span>
+            <span class="project-stack-small">OCaml · Type Inference</span>
+          </div>
+          <p class="project-small-desc">An interpreter for a subset of OCaml called MicroCaml, written in OCaml: a regex
+            based lexer, a
+            recursive descent parser handling operator precedence and nested expressions, and a Hindley-Milner type
+            inference engine using constraint generation and Robinson's unification algorithm. Built as part of CS314
+            Principles of Programming Languages.</p>
         </div>
 
         <div class="project-small">
@@ -168,23 +209,11 @@
             <span class="project-stack-small">Python · Pygame</span>
           </div>
           <p class="project-small-desc">Interactive visualization of Repeated Forward, Backward, and Adaptive A*
-            pathfinding algorithms on randomly generated grids. Made to help understand foundational search algorithms. Built upon coursework from CS440 Intro to Artificial
+            pathfinding algorithms on randomly generated grids. Made to help understand foundational search algorithms.
+            Built upon coursework from CS440 Intro to Artificial
             Intelligence.
           </p>
         </div>
-
-
-        <div class="project-small">
-          <div class="project-small-header">
-            <span class="project-name-small static">Photo Management App</span>
-            <span class="project-stack-small">Java · JavaFX · Android</span>
-          </div>
-          <p class="project-small-desc">Fullstack desktop and Android application for multi user photo organization.
-            Designed with MVC architecture separating FXML views from controllers, custom Java Serialization persistence
-            layer for local storage, and a central navigation system tracking session state across views. Core
-            functionality ported to a native Android application. Built in a team of two as part of CS213 Software Methodology.</p>
-        </div>
-
 
       </section>
 
