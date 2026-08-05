@@ -237,14 +237,33 @@ nav a.active {
   justify-content: center;
 }
 
-.social-links a {
+.social-links a,
+.social-links button {
   color: var(--text-muted);
   font-size: 1.3rem;
   transition: color 0.2s;
 }
 
-.social-links a:hover {
+.social-links a:hover,
+.social-links button:hover {
   color: var(--accent);
+}
+
+.email-trigger {
+  appearance: none;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  padding: 0;
+}
+
+.email-trigger:focus-visible {
+  border-radius: 3px;
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
 }
 
 
@@ -355,73 +374,166 @@ nav a.active {
 
 
 /* ════════════════════════════════════════
-   CUSTOM THEME PROMPT
+   MODALS
+
+   One set of rules for both overlays: the email dialog and the custom theme
+   picker. Both are native <dialog> elements, so Esc, the focus trap, and the
+   backdrop come from the platform instead of from JS. Every value here is a
+   theme token, and the label and button treatments are the ones the page
+   already uses, so the overlays read as part of the site.
 ════════════════════════════════════════ */
 
-.custom-prompt {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.95);
+.modal {
   background: var(--bg-subtle);
-  border: 1px solid var(--border);
+  /* Plain --border is only ~1.1:1 against --bg-subtle, so the panel would have
+     no visible edge at all. Mixing toward --text-muted keeps it a token. */
+  border: 1px solid color-mix(in srgb, var(--border) 55%, var(--text-muted));
   border-radius: 8px;
-  padding: 1.5rem;
+  /* The one place the site uses elevation. An overlay's whole job is to sit
+     above the page, so it needs the depth cue the flat page doesn't. */
+  box-shadow: 0 24px 64px -16px rgb(0 0 0 / 0.55);
+  color: var(--text);
+  margin: auto;
+  max-width: calc(100% - 2rem);
+  padding: 0;
+  width: 27rem;
+}
+
+/* Narrower variant for the theme picker, which is six short label rows. */
+.modal--compact {
+  width: 20rem;
+}
+
+/* The only hardcoded colour in this file. ::backdrop inherits custom properties
+   from its originating element only in recent browsers, so a var() here would
+   silently drop the scrim on older Safari. A soft neutral works either theme.
+   The blur pushes the orbs and body copy back so the dialog reads as a layer. */
+.modal::backdrop {
+  background: rgb(0 0 0 / 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.modal[open] {
+  animation: modal-in 0.18s ease-out;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal__content {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  z-index: 10000;
-  min-width: 260px;
+  padding: 1.5rem;
 }
 
-.custom-prompt.open {
-  opacity: 1;
-  pointer-events: all;
-  transform: translate(-50%, -50%) scale(1);
+/* The same eyebrow label the section headings use. */
+.modal__title {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
 }
 
-.custom-prompt h3 {
+.modal__text {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* A literal value meant to be read and selected, not clicked — so --text,
+   since accent means interactive everywhere else on the site. */
+.modal__code {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
   color: var(--text);
-  font-size: 0.95rem;
-  font-weight: normal;
-  letter-spacing: 0.05em;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  padding: 0.75rem;
+  text-align: center;
+  user-select: all;
 }
 
-.custom-prompt label {
+.modal__actions {
   display: flex;
-  justify-content: space-between;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.modal__button {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-muted);
+  cursor: pointer;
+  flex: 1;
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.55rem 0.75rem;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.modal__button:hover {
+  background: var(--border);
+  color: var(--text);
+}
+
+.modal__button--primary {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.modal__button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.modal__status {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  min-height: 1.25rem;
+  padding-top: 0.45rem;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal[open] {
+    animation: none;
+  }
+}
+
+
+/* Theme picker — only the swatch rows are specific to it. */
+.custom-prompt label {
   align-items: center;
   color: var(--text-muted);
+  display: flex;
   font-size: 0.85rem;
+  justify-content: space-between;
+  margin-bottom: 0.55rem;
 }
 
 .custom-prompt input[type="color"] {
-  width: 36px;
-  height: 24px;
+  background: none;
   border: none;
   border-radius: 3px;
   cursor: pointer;
-  background: none;
-}
-
-.custom-prompt button {
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  padding: 0.4rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  font-family: inherit;
-  transition: background 0.15s, color 0.15s;
-}
-
-.custom-prompt button:hover {
-  background: var(--border);
-  color: var(--text);
+  height: 24px;
+  width: 36px;
 }
 
 
@@ -556,13 +668,15 @@ section p {
   margin-top: 0.5rem;
 }
 
-.contact-links a {
+.contact-links a,
+.contact-links button {
   color: var(--text-muted);
   font-size: 1.4rem;
   transition: color 0.2s;
 }
 
-.contact-links a:hover {
+.contact-links a:hover,
+.contact-links button:hover {
   color: var(--accent);
 }
 
