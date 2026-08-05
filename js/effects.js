@@ -44,3 +44,17 @@ document.getElementById('glow-toggle').addEventListener('click', (e) => {
 });
 
 setGlowVisibility();
+
+// Backdrop click closes any .modal dialog. Delegated from the document so it
+// covers dialogs that are in the markup and ones built at runtime, whatever
+// order the scripts happen to load in. A click on the backdrop targets the
+// dialog itself; a click on its content targets something inside it.
+document.addEventListener('click', (e) => {
+  if (!(e.target instanceof HTMLDialogElement) || !e.target.open) return;
+
+  const box = e.target.getBoundingClientRect();
+  const outside = e.clientX < box.left || e.clientX > box.right
+    || e.clientY < box.top || e.clientY > box.bottom;
+
+  if (outside) e.target.close();
+});

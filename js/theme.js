@@ -63,12 +63,14 @@ if (customTrigger && customPrompt && customApply && customClose) {
   customTrigger.addEventListener('click', (e) => {
     e.stopPropagation();
     e.preventDefault();
-    setTimeout(() => {
-      customPrompt.classList.add('open');
-    }, 0);
     menu.classList.remove('open');
+    submenu.classList.remove('open');
+    customPrompt.showModal();
   });
 
+  // Apply deliberately leaves the dialog open so colours can be tuned in
+  // passes. The dialog is styled from the same variables, so it restyles itself
+  // on apply, which doubles as the confirmation that it worked.
   customApply.addEventListener('click', () => {
     document.documentElement.setAttribute('data-theme', 'custom');
     localStorage.setItem('theme', 'custom');
@@ -76,19 +78,17 @@ if (customTrigger && customPrompt && customApply && customClose) {
       document.documentElement.style.setProperty(input.dataset.var, input.value);
       localStorage.setItem('custom' + input.dataset.var, input.value);
     });
-    customPrompt.classList.remove('open');
   });
 
-  customClose.addEventListener('click', () => customPrompt.classList.remove('open'));
+  customClose.addEventListener('click', () => customPrompt.close());
 }
 
+// The picker is a native <dialog> now, so Esc and backdrop clicks are handled
+// by the platform and by the shared handler in effects.js.
 document.addEventListener('click', (e) => {
   if (!menu.contains(e.target) && e.target !== toggleBtn) {
     menu.classList.remove('open');
     submenu.classList.remove('open');
-  }
-  if (customPrompt && !customPrompt.contains(e.target) && e.target !== customTrigger) {
-    customPrompt.classList.remove('open');
   }
 });
 

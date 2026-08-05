@@ -46,9 +46,10 @@
           <a href="https://www.linkedin.com/in/anshjetli/" target="_blank" aria-label="LinkedIn" title="LinkedIn">
             <i class="fab fa-linkedin"></i>
           </a>
-          <a href="mailto:ansh.jetli@gmail.com" aria-label="Email" title="Email">
+          <button type="button" class="email-trigger" data-email-trigger aria-haspopup="dialog"
+            aria-controls="email-dialog" aria-label="Show email address" title="Email">
             <i class="fas fa-envelope"></i>
-          </a>
+          </button>
         </div>
         <div class="theme-switcher">
           <button class="theme-icon" id="theme-toggle">&#9680;</button>
@@ -190,23 +191,28 @@
     </main>
   </div>
 
-  <div class="custom-prompt" id="custom-prompt">
-    <h3>Custom Theme</h3>
-    <label>Page background<input type="color" data-var="--bg" value="#0d0f14"></label>
-    <label>Panels &amp; cards<input type="color" data-var="--bg-subtle" value="#1e2435"></label>
-    <label>Body text<input type="color" data-var="--text" value="#bcc2cd"></label>
-    <label>Headings &amp; labels<input type="color" data-var="--text-muted" value="#8b93a1"></label>
-    <label>Links &amp; accents<input type="color" data-var="--accent" value="#6ba7f5"></label>
-    <label>Lines &amp; borders<input type="color" data-var="--border" value="#252a38"></label>
-    <button id="custom-apply">Apply</button>
-    <button id="custom-close">Cancel</button>
-  </div>
+  <dialog class="modal modal--compact custom-prompt" id="custom-prompt" aria-labelledby="custom-prompt-title">
+    <div class="modal__content">
+      <h2 class="modal__title" id="custom-prompt-title">Custom theme</h2>
+      <label>Page background<input type="color" data-var="--bg" value="#0d0f14"></label>
+      <label>Panels &amp; cards<input type="color" data-var="--bg-subtle" value="#1e2435"></label>
+      <label>Body text<input type="color" data-var="--text" value="#bcc2cd"></label>
+      <label>Headings &amp; labels<input type="color" data-var="--text-muted" value="#8b93a1"></label>
+      <label>Links &amp; accents<input type="color" data-var="--accent" value="#6ba7f5"></label>
+      <label>Lines &amp; borders<input type="color" data-var="--border" value="#252a38"></label>
+      <div class="modal__actions">
+        <button type="button" class="modal__button modal__button--primary" id="custom-apply">Apply</button>
+        <button type="button" class="modal__button" id="custom-close">Close</button>
+      </div>
+    </div>
+  </dialog>
 
   <footer>
     <p>Designed & built by Ansh Jetli · 2026 </p>
   </footer>
   <script src="js/theme.js"></script>
   <script src="js/effects.js"></script>
+  <script src="js/email.js"></script>
 </body>
 
 </html>
