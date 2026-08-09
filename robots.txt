@@ -1,10 +1,2 @@
-# Pages are fine to crawl. The portrait is not: keep it out of image search.
-#
-# Do NOT add a blanket image rule here. favicon.png has to stay crawlable or
-# Google Search drops back to a generic globe icon next to the result.
-#
-# No "Allow: /" line here on purpose. Crawling is permitted by default, and an
-# explicit Allow makes the rule ambiguous: Google resolves conflicts by longest
-# match, older parsers by first match, so they would disagree about the photo.
 User-agent: *
 Disallow: /header_photo.jpg
