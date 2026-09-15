@@ -2,26 +2,26 @@ import { useEffect, useRef, useState } from 'react'
 import Dialog from './Dialog.jsx'
 import { colorFields, extraThemes } from './themeColors.js'
 
-export default function ThemeControls({ theme, onThemeChange, customColors, onCustomColorsChange, glowEnabled, onGlowChange, grainEnabled, onGrainChange }) {
-  const [open, setOpen] = useState(false)
+export default function ThemeControls({ theme, onThemeChange, customColors, onCustomColorsChange, glowEnabled, onGlowChange, grainEnabled, onGrainChange, driftEnabled, onDriftChange, flickerEnabled, onFlickerChange }) {
+  const [openMenu, setOpenMenu] = useState(null)
   const [submenuOpen, setSubmenuOpen] = useState(false)
   const [draftColors, setDraftColors] = useState(customColors)
   const controlsRef = useRef(null)
   const dialogRef = useRef(null)
 
   useEffect(() => {
-    if (!open) return
+    if (!openMenu) return
     function closeOutside(event) {
       if (!controlsRef.current.contains(event.target)) {
-        setOpen(false)
+        setOpenMenu(null)
         setSubmenuOpen(false)
       }
     }
     function closeOnEscape(event) {
       if (event.key === 'Escape') {
-        setOpen(false)
+        setOpenMenu(null)
         setSubmenuOpen(false)
-        controlsRef.current.querySelector('.theme-icon').focus()
+        controlsRef.current.querySelector(`[aria-controls="${openMenu}"]`).focus()
       }
     }
     document.addEventListener('pointerdown', closeOutside)
@@ -30,17 +30,17 @@ export default function ThemeControls({ theme, onThemeChange, customColors, onCu
       document.removeEventListener('pointerdown', closeOutside)
       document.removeEventListener('keydown', closeOnEscape)
     }
-  }, [open])
+  }, [openMenu])
 
   function chooseTheme(value) {
     onThemeChange(value)
-    setOpen(false)
+    setOpenMenu(null)
     setSubmenuOpen(false)
   }
 
   function openCustomPicker() {
     setDraftColors(customColors)
-    setOpen(false)
+    setOpenMenu(null)
     setSubmenuOpen(false)
     dialogRef.current.showModal()
   }
@@ -53,13 +53,32 @@ export default function ThemeControls({ theme, onThemeChange, customColors, onCu
     )
   }
 
+  function toggleButton(label, enabled, onChange) {
+    return (
+      <button type="button" aria-pressed={enabled} onClick={() => onChange(!enabled)}>
+        {label}: {enabled ? 'On' : 'Off'}
+      </button>
+    )
+  }
+
+  function menu(id, label, icon, items) {
+    const open = openMenu === id
+    return (
+      <div className="theme-switcher">
+        <button type="button" className="theme-icon" aria-label={label}
+          aria-expanded={open} aria-controls={id}
+          onClick={() => { setOpenMenu(open ? null : id); setSubmenuOpen(false) }}>{icon}</button>
+        <div className={`theme-menu${open ? ' open' : ''}`} id={id} inert={!open}>
+          {items}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
-      <div className="theme-switcher" ref={controlsRef}>
-        <button type="button" className="theme-icon" aria-label="Choose theme"
-          aria-expanded={open} aria-controls="theme-menu"
-          onClick={() => { setOpen(!open); setSubmenuOpen(false) }}>◐</button>
-        <div className={`theme-menu${open ? ' open' : ''}`} id="theme-menu" inert={!open}>
+      <div className="theme-controls" ref={controlsRef}>
+        {menu('theme-menu', 'Choose theme', '◐', <>
           {themeButton('light', 'Light')}
           {themeButton('dark', 'Dark')}
           <div className="theme-submenu-wrapper"
@@ -71,9 +90,13 @@ export default function ThemeControls({ theme, onThemeChange, customColors, onCu
               <button type="button" onClick={openCustomPicker}>Custom</button>
             </div>
           </div>
-          <button type="button" aria-pressed={grainEnabled} onClick={() => onGrainChange(!grainEnabled)}>Grain: {grainEnabled ? 'On' : 'Off'}</button>
-          <button type="button" aria-pressed={glowEnabled} onClick={() => onGlowChange(!glowEnabled)}>Glow: {glowEnabled ? 'On' : 'Off'}</button>
-        </div>
+        </>)}
+        {menu('effects-menu', 'Background effects', <i className="fas fa-wand-magic-sparkles" aria-hidden="true" />, <>
+          {toggleButton('Grain', grainEnabled, onGrainChange)}
+          {toggleButton('Glow', glowEnabled, onGlowChange)}
+          {toggleButton('Drift', driftEnabled, onDriftChange)}
+          {toggleButton('Flicker', flickerEnabled, onFlickerChange)}
+        </>)}
       </div>
       <Dialog dialogRef={dialogRef} className="modal--compact custom-prompt" titleId="custom-prompt-title">
         <h2 className="modal__title" id="custom-prompt-title">Custom theme</h2>

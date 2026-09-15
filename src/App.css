@@ -171,9 +171,14 @@ nav a.active {
   outline-offset: 4px;
 }
 
+.theme-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
 .theme-switcher {
   position: relative;
-  margin-top: 1rem;
 }
 
 .theme-icon {
@@ -185,6 +190,10 @@ nav a.active {
   padding: 0.4rem 0.6rem;
   border-radius: 4px;
   transition: color 0.2s, border-color 0.2s;
+}
+
+.theme-icon i {
+  font-size: 0.8em;
 }
 
 .theme-icon:hover {
@@ -732,7 +741,7 @@ footer p {
     justify-content: flex-start;
   }
 
-  .theme-switcher {
+  .theme-controls {
     margin-top: 0;
   }
 

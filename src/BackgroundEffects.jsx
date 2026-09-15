@@ -1,9 +1,15 @@
 import { useEffect, useRef } from 'react'
 import './BackgroundEffects.css'
 
-export default function BackgroundEffects({ glowEnabled, grainEnabled }) {
+export default function BackgroundEffects({ glowEnabled, grainEnabled, driftEnabled, flickerEnabled }) {
   const glowRef = useRef(null)
   const grainRef = useRef(null)
+  const flickerRef = useRef(flickerEnabled)
+
+  // A ref, not an effect dependency, so toggling keeps the current pixels.
+  useEffect(() => {
+    flickerRef.current = flickerEnabled
+  }, [flickerEnabled])
 
   useEffect(() => {
     if (!grainEnabled) return
@@ -38,7 +44,7 @@ export default function BackgroundEffects({ glowEnabled, grainEnabled }) {
     }
 
     function evolveGrain() {
-      if (!image) return
+      if (!image || !flickerRef.current) return
       const pixels = image.data.length / 4
       for (let i = 0; i < pixels * 0.08; i++) {
         randomizePixel(Math.floor(Math.random() * pixels) * 4)
@@ -77,7 +83,7 @@ export default function BackgroundEffects({ glowEnabled, grainEnabled }) {
 
   return (
     <>
-      <div className={`ambient-background${grainEnabled ? '' : ' ambient-background--disabled'}`}
+      <div className={`ambient-background${grainEnabled && driftEnabled ? '' : ' ambient-background--paused'}`}
         aria-hidden="true" style={{ opacity: grainEnabled ? 1 : 0 }}>
         <canvas className="ambient-grain" ref={grainRef} />
       </div>

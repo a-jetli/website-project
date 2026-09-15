@@ -43,8 +43,8 @@
   will-change: transform;
 }
 
-.ambient-background--disabled::before,
-.ambient-background--disabled .ambient-grain {
+.ambient-background--paused::before,
+.ambient-background--paused .ambient-grain {
   animation-play-state: paused;
 }
 
