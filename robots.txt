@@ -1,2 +1,0 @@
-User-agent: *
-Disallow: /header_photo.jpg

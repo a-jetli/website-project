@@ -1,0 +1,63 @@
+.ambient-background {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+  isolation: isolate;
+  background: var(--bg);
+  transition: opacity 0.4s ease;
+}
+
+.ambient-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 200%;
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--wash-1) var(--wash-tint), var(--bg)) 0%,
+    color-mix(in srgb, var(--wash-2) var(--wash-tint), var(--bg)) 33%,
+    color-mix(in srgb, var(--wash-3) var(--wash-tint), var(--bg)) 67%,
+    color-mix(in srgb, var(--wash-1) var(--wash-tint), var(--bg)) 100%);
+  background-size: 50% 100%;
+  animation: ambient-drift 45s linear infinite;
+  will-change: transform;
+}
+
+.ambient-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--bg) 45%, transparent));
+}
+
+.ambient-grain {
+  position: absolute;
+  inset: 0;
+  width: 200%;
+  height: 100%;
+  image-rendering: pixelated;
+  mix-blend-mode: var(--grain-blend, overlay);
+  opacity: var(--grain-opacity);
+  animation: ambient-drift 45s linear infinite;
+  will-change: transform;
+}
+
+.ambient-background--disabled::before,
+.ambient-background--disabled .ambient-grain {
+  animation-play-state: paused;
+}
+
+@keyframes ambient-drift {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-background::before,
+  .ambient-grain {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+}

@@ -1,7 +1,3 @@
-/* ════════════════════════════════════════
-   LAYOUT
-════════════════════════════════════════ */
-
 .layout {
   display: flex;
   min-height: 100vh;
@@ -21,8 +17,7 @@
   text-align: center;
   background: transparent;
   overflow-y: auto;
-  /* `safe center` keeps content top-aligned instead of clipping the top
-     off-screen when it's taller than the panel. Plain center is the fallback. */
+
   justify-content: center;
   justify-content: safe center;
   overflow-x: hidden;
@@ -39,8 +34,7 @@
   padding: 4rem 4rem 4rem 4rem;
   display: flex;
   flex-direction: column;
-  /* Headings carry the accent colour now, so they no longer need a big gap to
-     read as a new section. */
+
   gap: 2.5rem;
   background: transparent;
   overflow-x: hidden;
@@ -50,92 +44,8 @@ body {
   overflow-x: hidden;
 }
 
-
-/* ════════════════════════════════════════
-   BACKGROUND ORBS
-
-   Three soft masses that orbit slowly behind the content. Each one is a
-   radial-gradient (already soft, so no expensive blur filter) rotated about an
-   origin outside itself, which sweeps it in a wide circle. Colours come from
-   color-mix on the theme accent, so they follow every theme including custom.
-════════════════════════════════════════ */
-
-.orbs {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  z-index: -1;
-  pointer-events: none;
-  /* Fades with the mouse glow, which shares the Glow toggle. */
-  transition: opacity 0.4s ease;
-}
-
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  will-change: transform;
-  animation: orb-orbit linear infinite;
-}
-
-.orb-1 {
-  width: 58vmax;
-  height: 58vmax;
-  top: -16vmax;
-  left: -12vmax;
-  transform-origin: 78% 128%;
-  animation-duration: 115s;
-  background: radial-gradient(circle,
-      color-mix(in srgb, var(--accent) var(--orb-tint), transparent) 0%,
-      transparent 66%);
-}
-
-.orb-2 {
-  width: 42vmax;
-  height: 42vmax;
-  top: 34vh;
-  right: -14vmax;
-  transform-origin: -20% 40%;
-  animation-duration: 155s;
-  animation-direction: reverse;
-  background: radial-gradient(circle,
-      color-mix(in srgb, var(--accent-hover) calc(var(--orb-tint) * 0.8), transparent) 0%,
-      transparent 68%);
-}
-
-.orb-3 {
-  width: 66vmax;
-  height: 66vmax;
-  bottom: -28vmax;
-  left: 22vw;
-  transform-origin: 30% -15%;
-  animation-duration: 190s;
-  background: radial-gradient(circle,
-      color-mix(in srgb, var(--bg-subtle) var(--orb-haze), transparent) 0%,
-      transparent 70%);
-}
-
-@keyframes orb-orbit {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Slow ambient motion is exactly what motion-sensitive readers turn off. */
-@media (prefers-reduced-motion: reduce) {
-  .orb {
-    animation: none;
-  }
-}
-
-
-/* ════════════════════════════════════════
-   LEFT PANEL — IDENTITY
-════════════════════════════════════════ */
-
 .photo {
-  /* Scales both ways: 30vh is the driver (the panel is height-constrained, so
-     short or zoomed-in screens shrink it smoothly instead of clipping), 18vw
-     keeps it from outgrowing the panel on narrow-but-tall windows. */
+
   width: clamp(140px, min(28vh, 18vw), 380px);
   height: auto;
   flex-shrink: 0;
@@ -176,13 +86,8 @@ body {
   text-transform: uppercase;
 }
 
-
-/* ════════════════════════════════════════
-   LEFT PANEL — NAV & FOOTER
-════════════════════════════════════════ */
-
 .nav-footer {
-  
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -266,11 +171,6 @@ nav a.active {
   outline-offset: 4px;
 }
 
-
-/* ════════════════════════════════════════
-   THEME SWITCHER
-════════════════════════════════════════ */
-
 .theme-switcher {
   position: relative;
   margin-top: 1rem;
@@ -341,9 +241,7 @@ nav a.active {
 
 .theme-submenu-wrapper {
   position: relative;
-  /* Its sibling buttons are flex items of .theme-menu and stretch full width.
-     Without this the button inside here is a shrink-to-fit inline-block, and
-     the panel's inherited text-align: center nudges it out of line. */
+
   display: flex;
   flex-direction: column;
 }
@@ -372,25 +270,12 @@ nav a.active {
   transform: translateX(0);
 }
 
-
-/* ════════════════════════════════════════
-   MODALS
-
-   One set of rules for both overlays: the email dialog and the custom theme
-   picker. Both are native <dialog> elements, so Esc, the focus trap, and the
-   backdrop come from the platform instead of from JS. Every value here is a
-   theme token, and the label and button treatments are the ones the page
-   already uses, so the overlays read as part of the site.
-════════════════════════════════════════ */
-
 .modal {
   background: var(--bg-subtle);
-  /* Plain --border is only ~1.1:1 against --bg-subtle, so the panel would have
-     no visible edge at all. Mixing toward --text-muted keeps it a token. */
+
   border: 1px solid color-mix(in srgb, var(--border) 55%, var(--text-muted));
   border-radius: 8px;
-  /* The one place the site uses elevation. An overlay's whole job is to sit
-     above the page, so it needs the depth cue the flat page doesn't. */
+
   box-shadow: 0 24px 64px -16px rgb(0 0 0 / 0.55);
   color: var(--text);
   margin: auto;
@@ -399,15 +284,10 @@ nav a.active {
   width: 27rem;
 }
 
-/* Narrower variant for the theme picker, which is six short label rows. */
 .modal--compact {
   width: 20rem;
 }
 
-/* The only hardcoded colour in this file. ::backdrop inherits custom properties
-   from its originating element only in recent browsers, so a var() here would
-   silently drop the scrim on older Safari. A soft neutral works either theme.
-   The blur pushes the orbs and body copy back so the dialog reads as a layer. */
 .modal::backdrop {
   background: rgb(0 0 0 / 0.6);
   backdrop-filter: blur(3px);
@@ -435,7 +315,6 @@ nav a.active {
   padding: 1.5rem;
 }
 
-/* The same eyebrow label the section headings use. */
 .modal__title {
   color: var(--text-muted);
   font-size: 0.78rem;
@@ -452,8 +331,6 @@ nav a.active {
   margin-bottom: 1rem;
 }
 
-/* A literal value meant to be read and selected, not clicked — so --text,
-   since accent means interactive everywhere else on the site. */
 .modal__code {
   background: var(--bg);
   border: 1px solid var(--border);
@@ -516,8 +393,6 @@ nav a.active {
   }
 }
 
-
-/* Theme picker — only the swatch rows are specific to it. */
 .custom-prompt label {
   align-items: center;
   color: var(--text-muted);
@@ -536,23 +411,12 @@ nav a.active {
   width: 36px;
 }
 
-
-/* ════════════════════════════════════════
-   RIGHT PANEL — GENERAL SECTIONS
-════════════════════════════════════════ */
-
-/* Section headings are signposts, not content, so they get hierarchy from form
-   rather than from another colour: small, uppercase, widely tracked, in the
-   muted tone, with a hairline running out to the edge of the text column. The
-   rule is the point — it's the only horizontal division on the page, and
-   without it every block is the same width in the same column, which is what
-   made the layout feel flat. */
 section h2 {
   display: flex;
   align-items: center;
   gap: 1rem;
   max-width: var(--measure);
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -567,8 +431,6 @@ section h2::after {
   background: var(--border);
 }
 
-/* Page opener — the one display-scale element per page, and the only heading
-   that keeps the serif. */
 .bio-heading {
   display: block;
   font-family: var(--font-display);
@@ -592,7 +454,6 @@ section p {
   margin-bottom: 1.1rem;
 }
 
-/* Subtitle under a page opener — one step down, never body copy. */
 .lead {
   color: var(--text-muted);
   font-size: 1rem;
@@ -602,14 +463,8 @@ section p {
   line-height: 1.7;
 }
 
-
-/* ════════════════════════════════════════
-   RIGHT PANEL — EDUCATION
-════════════════════════════════════════ */
-
 .edu-entry {
-  /* Bounds the space-between row below, so the year lands on the same right
-     edge as the body copy and the section heading rules. */
+
   max-width: var(--measure);
   margin-bottom: 1.25rem;
 }
@@ -639,11 +494,6 @@ section p {
   max-width: var(--measure);
 }
 
-
-/* ════════════════════════════════════════
-   RIGHT PANEL — RESUME
-════════════════════════════════════════ */
-
 .resume-download {
   display: inline-flex;
   align-items: center;
@@ -655,11 +505,6 @@ section p {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-
-
-/* ════════════════════════════════════════
-   RIGHT PANEL — CONTACT
-════════════════════════════════════════ */
 
 .contact-links {
   display: flex;
@@ -680,15 +525,6 @@ section p {
   color: var(--accent);
 }
 
-
-/* ════════════════════════════════════════
-   RIGHT PANEL — PROJECTS (FEATURED)
-   
-   Usage:
-   - span.project-name         → no link, static accent color
-   - a.project-name-linked     → has link, accent → text on hover
-════════════════════════════════════════ */
-
 .project-featured {
   padding: 1.5rem 0;
   border-bottom: 1px solid var(--border);
@@ -701,14 +537,9 @@ section p {
   border-bottom: none;
 }
 
-/* Card that sits directly under the paragraph it belongs to, instead of in a
-   separate Featured Work list. Carries only the links and the stack: the
-   paragraph above already told the story, so a description here would just say
-   the same thing twice. The accent rule on the left and the recessed surface
-   tie it to that paragraph rather than reading as a new section. */
 .project-inline {
   max-width: var(--measure);
-  /* Tight underneath so it reads as the header for the paragraph it precedes. */
+
   margin: 0 0 0.85rem;
   padding: 0.8rem 1.25rem;
   gap: 0.4rem;
@@ -718,14 +549,10 @@ section p {
   background: color-mix(in srgb, var(--bg-subtle) 45%, transparent);
 }
 
-/* Only cards that follow a paragraph start a new block and need the gap. The
-   first card in a section follows the heading, so it stays flush. */
 p + .project-inline {
   margin-top: 2.25rem;
 }
 
-/* Metadata, not a link — keeping it accent-blue made the card read as three
-   rows of the same colour. */
 .project-inline .project-stack {
   color: var(--text-muted);
 }
@@ -737,14 +564,12 @@ p + .project-inline {
   flex-wrap: wrap;
 }
 
-/* Static featured project name — no link */
 .project-name {
   font-size: 1.1rem;
   font-weight: 500;
   color: var(--accent);
 }
 
-/* Linked featured project name — hoverable */
 a.project-name-linked {
   font-size: 1.1rem;
   font-weight: 500;
@@ -757,15 +582,14 @@ a.project-name-linked:hover {
   color: var(--text);
 }
 
-.project-tag {
-  font-size: 0.78rem;
+.project-status {
+  font-size: 0.875rem;
   color: var(--text-muted);
-  letter-spacing: 0.05em;
   font-style: italic;
 }
 
 .project-links a {
-  font-size: 0.82rem;
+  font-size: 0.875rem;
   color: var(--text-muted);
   letter-spacing: 0.05em;
   transition: color 0.2s;
@@ -783,19 +607,10 @@ a.project-name-linked:hover {
 }
 
 .project-stack {
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   color: var(--accent);
   letter-spacing: 0.06em;
 }
-
-
-/* ════════════════════════════════════════
-   RIGHT PANEL — PROJECTS (OTHER)
-
-   Usage:
-   - span.project-name-small           → wraps an <a>, hoverable
-   - span.project-name-small.static    → no link, no hover effect
-════════════════════════════════════════ */
 
 .project-small {
   padding: 1rem 0;
@@ -816,7 +631,6 @@ a.project-name-linked:hover {
   flex-wrap: wrap;
 }
 
-/* Base small project name */
 .project-name-small {
   font-size: 0.95rem;
   font-weight: 500;
@@ -824,19 +638,16 @@ a.project-name-linked:hover {
   transition: color 0.2s;
 }
 
-/* Link inside small project name inherits color from parent */
 .project-name-small a {
   color: inherit;
   text-decoration: none;
   transition: color 0.2s;
 }
 
-/* Hoverable — changes to text color on hover */
 .project-small:hover .project-name-small {
   color: var(--text);
 }
 
-/* Static — no hover effect, stays accent */
 .project-name-small.static {
   cursor: default;
 }
@@ -846,7 +657,7 @@ a.project-name-linked:hover {
 }
 
 .project-stack-small {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   color: var(--text-muted);
   letter-spacing: 0.05em;
 }
@@ -859,11 +670,6 @@ a.project-name-linked:hover {
   margin-bottom: 0;
 }
 
-
-/* ════════════════════════════════════════
-   FOOTER
-════════════════════════════════════════ */
-
 footer {
   margin-left: 30%;
   width: 70%;
@@ -872,9 +678,6 @@ footer {
   font-size: 0.8rem;
 }
 
-/* The rule and the colophon live on the paragraph, not the footer, so they're
-   bounded by --measure. Centring on the full panel width put the text well to
-   the right of the text column it sits under. */
 footer p {
   max-width: var(--measure);
   padding-top: 2rem;
@@ -882,25 +685,55 @@ footer p {
   text-align: center;
 }
 
-
-/* ════════════════════════════════════════
-   RESPONSIVE — MOBILE (max-width: 1200px)
-════════════════════════════════════════ */
-
 @media (max-width: 1200px) {
   .layout {
     flex-direction: column;
   }
 
   .photo {
-    width: 160px;
+    width: 4.5rem;
   }
 
   .left-panel {
     position: relative;
+    z-index: 1;
     width: 100%;
     height: auto;
-    padding: 2rem 1.5rem;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    gap: 1rem;
+    overflow: visible;
+  }
+
+  .identity {
+    padding-top: 0;
+    border-top: 0;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .nav-footer {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.75rem;
+  }
+
+  .nav-footer nav {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .social-links {
+    justify-content: flex-start;
+  }
+
+  .theme-switcher {
+    margin-top: 0;
   }
 
   .right-panel {
@@ -914,19 +747,24 @@ footer p {
   }
 
   .theme-menu {
-    left: 50%;
-    transform: translateX(-50%) translateY(6px);
+    top: 110%;
+    bottom: auto;
+    left: auto;
+    right: 0;
+    z-index: 10;
+    transform: translateY(6px);
   }
 
   .theme-menu.open {
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
 
   .theme-submenu {
-    left: 0;
-    top: 0;
+    left: auto;
+    right: 0;
+    top: 100%;
     bottom: auto;
-    transform: translateY(-100%);
+    transform: translateY(6px);
   }
 
   footer {
@@ -934,4 +772,99 @@ footer p {
     width: 100%;
     padding: 2rem 1.5rem;
   }
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+.project-card--home + .project-card--home {
+  margin-top: 2.25rem;
+}
+.project-card h2,
+.project-card h3 {
+  display: block;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  color: inherit;
+}
+.project-card h2::after {
+  content: none;
+}
+.project-small-header h3 {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.project-card--full .project-featured,
+.project-card--compact .project-small {
+  border-bottom: 1px solid var(--border);
+}
+.project-card--home:last-child .project-inline {
+  border-bottom: 1px solid var(--border);
+}
+.project-card--full:last-child .project-featured,
+.project-card--compact:last-child .project-small {
+  border-bottom: none;
+}
+.content label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.content select {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font: inherit;
+  padding: 0.4rem 0.75rem;
+}
+.resume-page iframe {
+  display: block;
+  width: 100%;
+  height: 900px;
+  border: 0;
+}
+a:focus-visible, select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .left-panel, .right-panel {
+    animation: none;
+  }
+  a, nav a::after {
+    transition: none;
+  }
+}
+
+.mouse-glow {
+  position: fixed;
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, var(--glow-color, rgba(100, 160, 255, 0.04)) 0%, transparent 70%);
+  z-index: 9999;
+  top: 0;
+  left: 0;
+}
+
+.theme-icon:focus-visible, .theme-menu button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .mouse-glow { display: none; }
 }
