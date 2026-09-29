@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import Dialog from './Dialog.jsx'
-import { colorFields, extraThemes } from './themeColors.js'
+import { colorFields, defaultGradientStrength, extraThemes, gradientFields, surfaceFields } from './themeColors.js'
 
-export default function ThemeControls({ theme, onThemeChange, customColors, onCustomColorsChange, glowEnabled, onGlowChange, grainEnabled, onGrainChange, driftEnabled, onDriftChange, flickerEnabled, onFlickerChange }) {
+export default function ThemeControls({ theme, onThemeChange, customColors, onCustomColorsChange, customStrength, onCustomStrengthChange, backgroundEnabled, onBackgroundChange, glowEnabled, onGlowChange, grainEnabled, onGrainChange, driftEnabled, onDriftChange }) {
   const [openMenu, setOpenMenu] = useState(null)
   const [submenuOpen, setSubmenuOpen] = useState(false)
   const [draftColors, setDraftColors] = useState(customColors)
+  const [draftStrength, setDraftStrength] = useState(customStrength)
   const controlsRef = useRef(null)
   const dialogRef = useRef(null)
 
@@ -40,9 +41,26 @@ export default function ThemeControls({ theme, onThemeChange, customColors, onCu
 
   function openCustomPicker() {
     setDraftColors(customColors)
+    setDraftStrength(customStrength)
     setOpenMenu(null)
     setSubmenuOpen(false)
     dialogRef.current.showModal()
+  }
+
+  function resetCustomDraft() {
+    setDraftColors(Object.fromEntries(colorFields.map(({ name, defaultValue }) => [name, defaultValue])))
+    setDraftStrength(defaultGradientStrength)
+  }
+
+  function colorInput({ name, label }) {
+    return (
+      <label className="custom-theme-color" key={name}>
+        <span>{label}</span>
+        <small>{draftColors[name].toUpperCase()}</small>
+        <input type="color" value={draftColors[name]}
+          onChange={(event) => setDraftColors({ ...draftColors, [name]: event.target.value })} />
+      </label>
+    )
   }
 
   function themeButton(value, label) {
@@ -87,34 +105,61 @@ export default function ThemeControls({ theme, onThemeChange, customColors, onCu
               aria-controls="theme-submenu" onClick={() => setSubmenuOpen(true)}>Other ▸</button>
             <div className={`theme-submenu${submenuOpen ? ' open' : ''}`} id="theme-submenu" inert={!submenuOpen}>
               {extraThemes.map(({ value, label }) => themeButton(value, label))}
-              <button type="button" onClick={openCustomPicker}>Custom</button>
+              <button type="button" onClick={openCustomPicker}>{theme === 'custom' ? 'Edit custom' : 'Custom'}</button>
             </div>
           </div>
         </>)}
         {menu('effects-menu', 'Background effects', <i className="fas fa-wand-magic-sparkles" aria-hidden="true" />, <>
+          {toggleButton('Gradient', backgroundEnabled, onBackgroundChange)}
           {toggleButton('Grain', grainEnabled, onGrainChange)}
           {toggleButton('Glow', glowEnabled, onGlowChange)}
-          {toggleButton('Drift', driftEnabled, onDriftChange)}
-          {toggleButton('Flicker', flickerEnabled, onFlickerChange)}
+          {toggleButton('Motion', driftEnabled, onDriftChange)}
         </>)}
       </div>
-      <Dialog dialogRef={dialogRef} className="modal--compact custom-prompt" titleId="custom-prompt-title">
+      <Dialog dialogRef={dialogRef} className="custom-prompt" titleId="custom-prompt-title">
         <h2 className="modal__title" id="custom-prompt-title">Custom theme</h2>
-        <form onSubmit={(event) => {
+        <form className="custom-theme-form" onSubmit={(event) => {
           event.preventDefault()
           onCustomColorsChange(draftColors)
+          onCustomStrengthChange(draftStrength)
           onThemeChange('custom')
+          dialogRef.current.close()
         }}>
-          {colorFields.map(({ name, label }) => (
-            <label key={name}>
-              {label}
-              <input type="color" value={draftColors[name]}
-                onChange={(event) => setDraftColors({ ...draftColors, [name]: event.target.value })} />
-            </label>
-          ))}
+          <div className="custom-theme-preview" aria-label="Theme color preview" style={{
+            '--preview-bg': draftColors['--bg'],
+            '--preview-panel': draftColors['--bg-subtle'],
+            '--preview-text': draftColors['--text'],
+            '--preview-muted': draftColors['--text-muted'],
+            '--preview-accent': draftColors['--accent'],
+            '--preview-border': draftColors['--border'],
+            '--preview-wash-1': draftColors['--wash-1'],
+            '--preview-wash-2': draftColors['--wash-2'],
+            '--preview-wash-3': draftColors['--wash-3'],
+            '--preview-strength': `${draftStrength}%`,
+          }}>
+            <span className="custom-theme-preview__label">Preview</span>
+            <div className="custom-theme-preview__card">
+              <strong>Project title</strong>
+              <span>Sample text with a <span className="custom-theme-preview__link">link</span>.</span>
+            </div>
+          </div>
+          <fieldset className="custom-theme-section">
+            <legend>Site colors</legend>
+            <div className="custom-theme-grid">{surfaceFields.map(colorInput)}</div>
+          </fieldset>
+          <fieldset className="custom-theme-section">
+            <legend>Gradient colors</legend>
+            <div className="custom-theme-grid custom-theme-grid--gradient">{gradientFields.map(colorInput)}</div>
+          </fieldset>
+          <label className="custom-theme-strength">
+            <span>Gradient strength <output>{draftStrength}%</output></span>
+            <input type="range" min="0" max="100" step="1" value={draftStrength}
+              onChange={(event) => setDraftStrength(Number(event.target.value))} />
+          </label>
           <div className="modal__actions">
+            <button type="button" className="modal__button" onClick={resetCustomDraft}>Reset</button>
+            <button type="button" className="modal__button" onClick={() => dialogRef.current.close()}>Cancel</button>
             <button type="submit" className="modal__button modal__button--primary">Apply</button>
-            <button type="button" className="modal__button" onClick={() => dialogRef.current.close()}>Close</button>
           </div>
         </form>
       </Dialog>

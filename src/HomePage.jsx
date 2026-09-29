@@ -11,6 +11,7 @@ export default function HomePage({ onEmailClick }) {
       ...project,
       description: entry.description ?? project.description,
       stack: entry.stack ?? project.stack,
+      summary: entry.summary,
     }
   })
 
@@ -69,8 +70,8 @@ export default function HomePage({ onEmailClick }) {
           When I'm not busy with school or projects, I enjoy reading and playing video games. I'm a fan of anything in
           the fantasy genre, and right now I'm going through the Red Rising series and learning to love sci-fi. I'm mostly playing indie games now, but I've
           been a long time fan of big multiplayer games like Overwatch and Destiny 2. Single player RPGs
-          also have a special place in my heart. I'm constantly listening to music (hence why I made Rotation) and I'm
-          self-learning how to play the guitar.
+          also have a special place in my heart. I'm constantly listening to music and always on the hunt for new artists,
+           and I'm slowly learning to play my guitar.
         </p>
       </section>
 
