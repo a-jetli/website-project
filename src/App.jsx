@@ -9,21 +9,9 @@ import ThemeControls from './ThemeControls.jsx'
 import BackgroundEffects from './BackgroundEffects.jsx'
 import EmailDialog from './EmailDialog.jsx'
 import { readPreference, writePreference } from './preferences.js'
-import { colorFields, defaultGradientStrength, extraThemes, gradientFields, surfaceFields } from './themeColors.js'
+import { colorFields, extraThemes } from './themeColors.js'
 
-function midpointHex(first, second) {
-  return '#' + [1, 3, 5].map((index) => {
-    const a = parseInt(first.slice(index, index + 2), 16)
-    const b = parseInt(second.slice(index, index + 2), 16)
-    return Math.round((a + b) / 2).toString(16).padStart(2, '0')
-  }).join('')
-}
-
-function hasSavedCustomTheme() {
-  return surfaceFields.some(({ name }) => readPreference('custom' + name, null) !== null)
-}
-
-function Sidebar({ onEmailClick, theme, onThemeChange, customColors, onCustomColorsChange, customStrength, onCustomStrengthChange, backgroundEnabled, onBackgroundChange, glowEnabled, onGlowChange, grainEnabled, onGrainChange, driftEnabled, onDriftChange }) {
+function Sidebar({ onEmailClick, theme, onThemeChange, customColors, onCustomColorsChange, glowEnabled, onGlowChange, grainEnabled, onGrainChange, driftEnabled, onDriftChange, flickerEnabled, onFlickerChange }) {
   return (
     <aside className="left-panel" aria-label="Profile and navigation">
       <img className="photo" src="/header_photo.jpg" alt="Ansh Jetli" />
@@ -40,11 +28,10 @@ function Sidebar({ onEmailClick, theme, onThemeChange, customColors, onCustomCol
         <SocialLinks onEmailClick={onEmailClick} />
         <ThemeControls theme={theme} onThemeChange={onThemeChange}
           customColors={customColors} onCustomColorsChange={onCustomColorsChange}
-          customStrength={customStrength} onCustomStrengthChange={onCustomStrengthChange}
-          backgroundEnabled={backgroundEnabled} onBackgroundChange={onBackgroundChange}
           glowEnabled={glowEnabled} onGlowChange={onGlowChange}
           grainEnabled={grainEnabled} onGrainChange={onGrainChange}
-          driftEnabled={driftEnabled} onDriftChange={onDriftChange} />
+          driftEnabled={driftEnabled} onDriftChange={onDriftChange}
+          flickerEnabled={flickerEnabled} onFlickerChange={onFlickerChange} />
       </div>
     </aside>
   )
@@ -60,31 +47,15 @@ export default function App() {
     return ['light', 'dark', ...extraThemes.map(({ value }) => value), 'custom'].includes(selected) ? selected : 'dark'
   })
   const [glowEnabled, setGlowEnabled] = useState(() => readPreference('glow', 'true') !== 'false')
-  const [backgroundEnabled, setBackgroundEnabled] = useState(() => readPreference('background', 'true') !== 'false')
   const [grainEnabled, setGrainEnabled] = useState(() => readPreference('grain', readPreference('glow', 'true')) !== 'false')
   const [driftEnabled, setDriftEnabled] = useState(() => readPreference('drift', 'true') !== 'false')
-  const [customColors, setCustomColors] = useState(() => {
-    const savedSurface = Object.fromEntries(surfaceFields.map(({ name, defaultValue }) => {
+  const [flickerEnabled, setFlickerEnabled] = useState(() => readPreference('flicker', 'true') !== 'false')
+  const [customColors, setCustomColors] = useState(() => Object.fromEntries(
+    colorFields.map(({ name, defaultValue }) => {
       const saved = readPreference('custom' + name, defaultValue)
       return [name, /^#[0-9a-f]{6}$/i.test(saved) ? saved : defaultValue]
-    }))
-    const legacyGradient = hasSavedCustomTheme() ? {
-      '--wash-1': savedSurface['--accent'],
-      '--wash-2': midpointHex(savedSurface['--accent'], savedSurface['--bg-subtle']),
-      '--wash-3': savedSurface['--bg-subtle'],
-    } : {}
-    const savedGradient = Object.fromEntries(gradientFields.map(({ name, defaultValue }) => {
-      const fallback = legacyGradient[name] ?? defaultValue
-      const saved = readPreference('custom' + name, fallback)
-      return [name, /^#[0-9a-f]{6}$/i.test(saved) ? saved : fallback]
-    }))
-    return { ...savedSurface, ...savedGradient }
-  })
-  const [customStrength, setCustomStrength] = useState(() => {
-    const fallback = hasSavedCustomTheme() ? 35 : defaultGradientStrength
-    const saved = Number(readPreference('custom--wash-tint', String(fallback)))
-    return Number.isFinite(saved) && saved >= 0 && saved <= 100 ? saved : fallback
-  })
+    }),
+  ))
 
   useEffect(() => {
     const root = document.documentElement
@@ -99,17 +70,7 @@ export default function App() {
         root.style.removeProperty(name)
       }
     }
-    if (theme === 'custom') {
-      root.style.setProperty('--wash-tint', `${customStrength}%`)
-      writePreference('custom--wash-tint', String(customStrength))
-    } else {
-      root.style.removeProperty('--wash-tint')
-    }
-  }, [theme, customColors, customStrength])
-
-  useEffect(() => {
-    writePreference('background', String(backgroundEnabled))
-  }, [backgroundEnabled])
+  }, [theme, customColors])
 
   useEffect(() => {
     writePreference('glow', String(glowEnabled))
@@ -124,6 +85,10 @@ export default function App() {
   }, [driftEnabled])
 
   useEffect(() => {
+    writePreference('flicker', String(flickerEnabled))
+  }, [flickerEnabled])
+
+  useEffect(() => {
     document.title = page === '/projects' ? 'Projects | Ansh Jetli'
       : page === '/resume' ? 'Resume | Ansh Jetli'
       : page === '' ? 'Ansh Jetli' : 'Page not found | Ansh Jetli'
@@ -136,15 +101,14 @@ export default function App() {
 
   return (
     <>
-      <BackgroundEffects backgroundEnabled={backgroundEnabled} glowEnabled={glowEnabled} grainEnabled={grainEnabled} driftEnabled={driftEnabled} />
+      <BackgroundEffects glowEnabled={glowEnabled} grainEnabled={grainEnabled} driftEnabled={driftEnabled} flickerEnabled={flickerEnabled} />
       <div className="layout">
         <Sidebar onEmailClick={openEmailDialog} theme={theme} onThemeChange={setTheme}
           customColors={customColors} onCustomColorsChange={setCustomColors}
-          customStrength={customStrength} onCustomStrengthChange={setCustomStrength}
-          backgroundEnabled={backgroundEnabled} onBackgroundChange={setBackgroundEnabled}
           glowEnabled={glowEnabled} onGlowChange={setGlowEnabled}
           grainEnabled={grainEnabled} onGrainChange={setGrainEnabled}
-          driftEnabled={driftEnabled} onDriftChange={setDriftEnabled} />
+          driftEnabled={driftEnabled} onDriftChange={setDriftEnabled}
+          flickerEnabled={flickerEnabled} onFlickerChange={setFlickerEnabled} />
         <main className={`right-panel content${page === '/projects' ? ' right-panel--projects' : ''}`} key={pathname}>
           <Routes>
             <Route path="/" element={<HomePage onEmailClick={openEmailDialog} />} />
