@@ -119,8 +119,20 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (min-width: 1201px) {
+  html { scrollbar-gutter: stable; }
+}
+
+html:has(dialog:modal),
+html:has(dialog:modal) body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 body {
   background-color: var(--bg);
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
 
   color: var(--text);
   font-family: var(--font);

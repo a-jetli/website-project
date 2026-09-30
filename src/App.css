@@ -719,22 +719,28 @@ p + .project-inline {
 
 .project-lightbox {
   --lightbox-gap: clamp(0.75rem, 2.5vw, 2rem);
+  --lightbox-top: max(var(--lightbox-gap), env(safe-area-inset-top));
+  --lightbox-right: max(var(--lightbox-gap), env(safe-area-inset-right));
+  --lightbox-bottom: max(var(--lightbox-gap), env(safe-area-inset-bottom));
+  --lightbox-left: max(var(--lightbox-gap), env(safe-area-inset-left));
   background: #080808;
   border: 0;
   color: #fff;
-  height: calc(100dvh - 2 * var(--lightbox-gap));
-  inset: var(--lightbox-gap);
+  height: calc(100dvh - var(--lightbox-top) - var(--lightbox-bottom));
+  inset: var(--lightbox-top) var(--lightbox-right) var(--lightbox-bottom) var(--lightbox-left);
   margin: 0;
   max-height: none;
   max-width: none;
   overflow: hidden;
   padding: 0;
   position: fixed;
-  width: calc(100vw - 2 * var(--lightbox-gap));
+  width: calc(100vw - var(--lightbox-left) - var(--lightbox-right));
+  overscroll-behavior: none;
 }
 
 .project-lightbox::backdrop {
   background: rgb(0 0 0 / 0.88);
+  touch-action: none;
 }
 
 .project-lightbox__viewport {
@@ -743,6 +749,11 @@ p + .project-inline {
   overscroll-behavior: contain;
   position: absolute;
   scrollbar-width: none;
+  touch-action: pinch-zoom;
+}
+
+.project-lightbox__viewport--zoomed {
+  touch-action: pan-x pan-y pinch-zoom;
 }
 
 .project-lightbox__viewport::-webkit-scrollbar {
@@ -752,6 +763,11 @@ p + .project-inline {
 .project-lightbox__canvas {
   display: grid;
   place-items: center;
+  transition: transform 0.18s ease-out;
+}
+
+.project-lightbox__canvas--swiping {
+  transition: none;
 }
 
 .project-lightbox__image {
@@ -760,12 +776,10 @@ p + .project-inline {
   cursor: zoom-in;
   display: block;
   padding: 0;
-  touch-action: pan-y;
 }
 
 .project-lightbox__image--zoomed {
   cursor: zoom-out;
-  touch-action: auto;
 }
 
 .project-lightbox__image img {
@@ -868,6 +882,10 @@ p + .project-inline {
 @media (prefers-reduced-motion: reduce) {
   .project-gallery__strip {
     scroll-behavior: auto;
+  }
+
+  .project-lightbox__canvas {
+    transition: none;
   }
 }
 

@@ -13,6 +13,8 @@ export default function ProjectGallery({ project, media }) {
   const [zoom, setZoom] = useState(1)
   const [imageSize, setImageSize] = useState(null)
   const [viewportSize, setViewportSize] = useState(null)
+  const [swipeOffset, setSwipeOffset] = useState(0)
+  const [swiping, setSwiping] = useState(false)
   const isOpen = activeIndex !== null
 
   useEffect(() => {
@@ -89,6 +91,7 @@ export default function ProjectGallery({ project, media }) {
     setActiveIndex(null)
     setZoom(1)
     setImageSize(null)
+    cancelDrag()
   }
 
   function handleKeyDown(event) {
@@ -128,9 +131,14 @@ export default function ProjectGallery({ project, media }) {
   }
 
   function startDrag(event) {
+    suppressClickRef.current = false
     if (event.pointerType === 'touch' && zoom === 1) {
-      touchRef.current = { x: event.clientX, y: event.clientY }
-      event.currentTarget.setPointerCapture(event.pointerId)
+      if (!event.isPrimary) {
+        cancelDrag()
+        return
+      }
+      touchRef.current = { id: event.pointerId, x: event.clientX, y: event.clientY }
+      setSwiping(true)
       return
     }
     if (zoom === 1 || event.pointerType !== 'mouse') return
@@ -142,15 +150,24 @@ export default function ProjectGallery({ project, media }) {
       top: viewport.scrollTop,
       moved: false,
     }
-    event.currentTarget.setPointerCapture(event.pointerId)
   }
 
   function moveDrag(event) {
+    const touch = touchRef.current
+    if (touch && event.pointerId === touch.id) {
+      const dx = event.clientX - touch.x
+      const dy = event.clientY - touch.y
+      setSwipeOffset(Math.abs(dy) > Math.abs(dx) * 1.2 ? dy : 0)
+      return
+    }
     const drag = dragRef.current
     if (!drag) return
     const dx = event.clientX - drag.x
     const dy = event.clientY - drag.y
-    if (Math.abs(dx) + Math.abs(dy) > 4) drag.moved = true
+    if (!drag.moved && Math.abs(dx) + Math.abs(dy) > 4) {
+      drag.moved = true
+      event.currentTarget.setPointerCapture(event.pointerId)
+    }
     if (!drag.moved) return
     const viewport = viewportRef.current
     viewport.scrollLeft = drag.left - dx
@@ -158,19 +175,28 @@ export default function ProjectGallery({ project, media }) {
   }
 
   function endDrag(event) {
-    if (event.pointerType === 'touch' && touchRef.current) {
-      const dx = event.clientX - touchRef.current.x
-      const dy = event.clientY - touchRef.current.y
-      touchRef.current = null
-      if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.2) {
-        suppressClickRef.current = true
+    const touch = touchRef.current
+    if (touch && event.pointerId === touch.id) {
+      const dx = event.clientX - touch.x
+      const dy = event.clientY - touch.y
+      cancelDrag()
+      suppressClickRef.current = Math.abs(dx) + Math.abs(dy) > 8
+      if (Math.abs(dy) > 60 && Math.abs(dy) > Math.abs(dx) * 1.2) {
+        dialogRef.current.close()
+      } else if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.2) {
         selectImage(activeIndex + (dx < 0 ? 1 : -1))
-        window.setTimeout(() => { suppressClickRef.current = false }, 350)
       }
       return
     }
     if (dragRef.current?.moved) suppressClickRef.current = true
     dragRef.current = null
+  }
+
+  function cancelDrag() {
+    touchRef.current = null
+    dragRef.current = null
+    setSwipeOffset(0)
+    setSwiping(false)
   }
 
   return (
@@ -190,18 +216,20 @@ export default function ProjectGallery({ project, media }) {
         onClick={() => scrollStrip(1)} aria-label={'Scroll ' + project.title + ' images right'}>›</button>}
       <dialog ref={dialogRef} className="project-lightbox" aria-label={project.title + ' image viewer'}
         onClose={close} onKeyDown={handleKeyDown}>
-        <div className="project-lightbox__viewport" ref={viewportRef}>
-          <div className="project-lightbox__canvas" style={{
+        <div className={'project-lightbox__viewport' + (zoom > 1 ? ' project-lightbox__viewport--zoomed' : '')}
+          ref={viewportRef} onPointerDown={startDrag} onPointerMove={moveDrag}
+          onPointerUp={endDrag} onPointerCancel={cancelDrag}>
+          <div className={'project-lightbox__canvas' + (swiping ? ' project-lightbox__canvas--swiping' : '')} style={{
             width: width && viewportSize ? Math.max(width, viewportSize.width) : '100%',
             height: height && viewportSize ? Math.max(height, viewportSize.height) : '100%',
+            transform: `translateY(${swipeOffset}px)`,
           }}>
             <button type="button" className={'project-lightbox__image' + (zoom > 1 ? ' project-lightbox__image--zoomed' : '')}
-              onClick={toggleZoom} onPointerDown={startDrag} onPointerMove={moveDrag}
-              onPointerUp={endDrag} onPointerCancel={endDrag}
+              onClick={toggleZoom}
               aria-label={(zoom > 1 ? 'Zoom out' : 'Zoom in') + ' ' + project.title + ' image ' + ((activeIndex ?? 0) + 1)}>
-              <img key={active.src} src={active.src} alt={project.title + ': ' + active.label}
+              {isOpen && <img key={active.src} src={active.src} alt={project.title + ': ' + active.label}
                 onLoad={(event) => setImageSize({ width: event.currentTarget.naturalWidth, height: event.currentTarget.naturalHeight })}
-                style={width ? { width, height } : undefined} />
+                style={width ? { width, height } : undefined} />}
             </button>
           </div>
         </div>
