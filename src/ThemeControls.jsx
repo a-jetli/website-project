@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import Dialog from './Dialog.jsx'
-import { colorFields, extraThemes } from './themeColors.js'
+import { backgroundColorFields, extraThemes, siteColorFields } from './themeColors.js'
 
-export default function ThemeControls({ theme, onThemeChange, customColors, onCustomColorsChange, glowEnabled, onGlowChange, grainEnabled, onGrainChange, driftEnabled, onDriftChange, flickerEnabled, onFlickerChange }) {
+export default function ThemeControls({ theme, onThemeChange, customColors, onCustomColorsChange, glowEnabled, onGlowChange, grainEnabled, onGrainChange, driftEnabled, onDriftChange, backgroundEnabled, onBackgroundChange }) {
   const [openMenu, setOpenMenu] = useState(null)
   const [submenuOpen, setSubmenuOpen] = useState(false)
   const [draftColors, setDraftColors] = useState(customColors)
@@ -94,8 +94,8 @@ export default function ThemeControls({ theme, onThemeChange, customColors, onCu
         {menu('effects-menu', 'Background effects', <i className="fas fa-wand-magic-sparkles" aria-hidden="true" />, <>
           {toggleButton('Grain', grainEnabled, onGrainChange)}
           {toggleButton('Glow', glowEnabled, onGlowChange)}
-          {toggleButton('Drift', driftEnabled, onDriftChange)}
-          {toggleButton('Flicker', flickerEnabled, onFlickerChange)}
+          {toggleButton('Motion', driftEnabled, onDriftChange)}
+          {toggleButton('Background', backgroundEnabled, onBackgroundChange)}
         </>)}
       </div>
       <Dialog dialogRef={dialogRef} className="modal--compact custom-prompt" titleId="custom-prompt-title">
@@ -104,17 +104,35 @@ export default function ThemeControls({ theme, onThemeChange, customColors, onCu
           event.preventDefault()
           onCustomColorsChange(draftColors)
           onThemeChange('custom')
+          dialogRef.current.close()
         }}>
-          {colorFields.map(({ name, label }) => (
-            <label key={name}>
-              {label}
-              <input type="color" value={draftColors[name]}
-                onChange={(event) => setDraftColors({ ...draftColors, [name]: event.target.value })} />
-            </label>
-          ))}
+          <fieldset>
+            <legend>Site colors</legend>
+            {siteColorFields.map(({ name, label }) => (
+              <label key={name}>
+                {label}
+                <input type="color" value={draftColors[name]}
+                  onChange={(event) => setDraftColors({ ...draftColors, [name]: event.target.value })} />
+              </label>
+            ))}
+          </fieldset>
+          <fieldset>
+            <legend>Background gradient</legend>
+            {backgroundColorFields.map(({ name, label }) => (
+              <label key={name}>
+                {label}
+                <input type="color" value={draftColors[name]}
+                  onChange={(event) => setDraftColors({ ...draftColors, [name]: event.target.value })} />
+              </label>
+            ))}
+            <label htmlFor="background-strength">Strength: {draftColors['--wash-tint']}%</label>
+            <input id="background-strength" type="range" min="0" max="100"
+              value={draftColors['--wash-tint']}
+              onChange={(event) => setDraftColors({ ...draftColors, '--wash-tint': Number(event.target.value) })} />
+          </fieldset>
           <div className="modal__actions">
             <button type="submit" className="modal__button modal__button--primary">Apply</button>
-            <button type="button" className="modal__button" onClick={() => dialogRef.current.close()}>Close</button>
+            <button type="button" className="modal__button" onClick={() => dialogRef.current.close()}>Cancel</button>
           </div>
         </form>
       </Dialog>

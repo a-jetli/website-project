@@ -411,6 +411,28 @@ nav a.active {
   margin-bottom: 0.55rem;
 }
 
+.custom-prompt {
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+}
+
+.custom-prompt fieldset {
+  border: 0;
+  margin-bottom: 1rem;
+}
+
+.custom-prompt legend {
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+
+.custom-prompt input[type="range"] {
+  accent-color: var(--accent);
+  width: 100%;
+}
+
 .custom-prompt input[type="color"] {
   background: none;
   border: none;
@@ -555,7 +577,7 @@ section p {
   border: 1px solid var(--border);
   border-left: 2px solid var(--accent);
   border-radius: 4px;
-  background: color-mix(in srgb, var(--bg-subtle) 45%, transparent);
+  background: color-mix(in srgb, var(--bg-subtle) 95%, transparent);
 }
 
 p + .project-inline {

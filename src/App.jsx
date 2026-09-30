@@ -11,7 +11,7 @@ import EmailDialog from './EmailDialog.jsx'
 import { readPreference, writePreference } from './preferences.js'
 import { colorFields, extraThemes } from './themeColors.js'
 
-function Sidebar({ onEmailClick, theme, onThemeChange, customColors, onCustomColorsChange, glowEnabled, onGlowChange, grainEnabled, onGrainChange, driftEnabled, onDriftChange, flickerEnabled, onFlickerChange }) {
+function Sidebar({ onEmailClick, theme, onThemeChange, customColors, onCustomColorsChange, glowEnabled, onGlowChange, grainEnabled, onGrainChange, driftEnabled, onDriftChange, backgroundEnabled, onBackgroundChange }) {
   return (
     <aside className="left-panel" aria-label="Profile and navigation">
       <img className="photo" src="/header_photo.jpg" alt="Ansh Jetli" />
@@ -31,7 +31,7 @@ function Sidebar({ onEmailClick, theme, onThemeChange, customColors, onCustomCol
           glowEnabled={glowEnabled} onGlowChange={onGlowChange}
           grainEnabled={grainEnabled} onGrainChange={onGrainChange}
           driftEnabled={driftEnabled} onDriftChange={onDriftChange}
-          flickerEnabled={flickerEnabled} onFlickerChange={onFlickerChange} />
+          backgroundEnabled={backgroundEnabled} onBackgroundChange={onBackgroundChange} />
       </div>
     </aside>
   )
@@ -46,16 +46,19 @@ export default function App() {
     const selected = saved === 'wisteria' ? 'lavender' : saved
     return ['light', 'dark', ...extraThemes.map(({ value }) => value), 'custom'].includes(selected) ? selected : 'dark'
   })
-  const [glowEnabled, setGlowEnabled] = useState(() => readPreference('glow', 'true') !== 'false')
+  const [glowEnabled, setGlowEnabled] = useState(() => readPreference('glow', 'false') === 'true')
   const [grainEnabled, setGrainEnabled] = useState(() => readPreference('grain', readPreference('glow', 'true')) !== 'false')
   const [driftEnabled, setDriftEnabled] = useState(() => readPreference('drift', 'true') !== 'false')
-  const [flickerEnabled, setFlickerEnabled] = useState(() => readPreference('flicker', 'true') !== 'false')
-  const [customColors, setCustomColors] = useState(() => Object.fromEntries(
-    colorFields.map(({ name, defaultValue }) => {
+  const [backgroundEnabled, setBackgroundEnabled] = useState(() => readPreference('background', 'true') !== 'false')
+  const [customColors, setCustomColors] = useState(() => {
+    const colors = Object.fromEntries(colorFields.map(({ name, defaultValue }) => {
       const saved = readPreference('custom' + name, defaultValue)
       return [name, /^#[0-9a-f]{6}$/i.test(saved) ? saved : defaultValue]
-    }),
-  ))
+    }))
+    const strength = Number(readPreference('custom--wash-tint', '38'))
+    colors['--wash-tint'] = Number.isFinite(strength) ? Math.max(0, Math.min(100, strength)) : 38
+    return colors
+  })
 
   useEffect(() => {
     const root = document.documentElement
@@ -69,6 +72,12 @@ export default function App() {
       } else {
         root.style.removeProperty(name)
       }
+    }
+    if (theme === 'custom') {
+      root.style.setProperty('--wash-tint', `${customColors['--wash-tint']}%`)
+      writePreference('custom--wash-tint', String(customColors['--wash-tint']))
+    } else {
+      root.style.removeProperty('--wash-tint')
     }
   }, [theme, customColors])
 
@@ -85,8 +94,8 @@ export default function App() {
   }, [driftEnabled])
 
   useEffect(() => {
-    writePreference('flicker', String(flickerEnabled))
-  }, [flickerEnabled])
+    writePreference('background', String(backgroundEnabled))
+  }, [backgroundEnabled])
 
   useEffect(() => {
     document.title = page === '/projects' ? 'Projects | Ansh Jetli'
@@ -101,14 +110,14 @@ export default function App() {
 
   return (
     <>
-      <BackgroundEffects glowEnabled={glowEnabled} grainEnabled={grainEnabled} driftEnabled={driftEnabled} flickerEnabled={flickerEnabled} />
+      <BackgroundEffects glowEnabled={glowEnabled} grainEnabled={grainEnabled} driftEnabled={driftEnabled} backgroundEnabled={backgroundEnabled} />
       <div className="layout">
         <Sidebar onEmailClick={openEmailDialog} theme={theme} onThemeChange={setTheme}
           customColors={customColors} onCustomColorsChange={setCustomColors}
           glowEnabled={glowEnabled} onGlowChange={setGlowEnabled}
           grainEnabled={grainEnabled} onGrainChange={setGrainEnabled}
           driftEnabled={driftEnabled} onDriftChange={setDriftEnabled}
-          flickerEnabled={flickerEnabled} onFlickerChange={setFlickerEnabled} />
+          backgroundEnabled={backgroundEnabled} onBackgroundChange={setBackgroundEnabled} />
         <main className={`right-panel content${page === '/projects' ? ' right-panel--projects' : ''}`} key={pathname}>
           <Routes>
             <Route path="/" element={<HomePage onEmailClick={openEmailDialog} />} />
