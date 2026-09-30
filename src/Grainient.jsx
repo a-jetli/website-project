@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 
 // React Bits Grainient: original rotation, warp, softness and contrast.
-// Changes: theme palette mixed in OKLab, perceptual grain, defined smoothstep.
+// Changes: theme palette mixed in OKLab, stepped bands, perceptual grain, defined smoothstep.
 const vertex = `#version 300 es
 in vec2 position;
 void main() { gl_Position = vec4(position, 0.0, 1.0); }
@@ -89,7 +89,15 @@ void main() {
   float vertical=1.0-smoothstep(-0.3-softness,0.5+softness,tuv.y);
   // Blending in OKLab keeps hues clean where bands meet instead of greying out.
   vec3 c1=oklab(uColor1), c2=oklab(uColor2), c3=oklab(uColor3);
-  vec3 field=mix(mix(c3,c2,horizontal),mix(c2,c1,horizontal),vertical);
+
+  // Stepped bands: the source's bilinear blend runs color3 -> color2 -> color1
+  // along (horizontal+vertical)/2. Quantizing that one value gives flat tones
+  // with contour edges; the grain sample dithers each edge like a print.
+  vec2 samples=random2(uvec2(gl_FragCoord.xy/uGrainSize));
+  float bands=6.0;
+  float ramp=(horizontal+vertical)*0.5;
+  ramp=clamp(floor(ramp*bands+(samples.x-0.5)*0.6)/(bands-1.0),0.0,1.0);
+  vec3 field=ramp<0.5 ? mix(c3,c2,ramp*2.0) : mix(c2,c1,ramp*2.0-1.0);
 
   // Source contrast (1.5x) pivots on the palette's own lightness instead of
   // mid-grey, so dark palettes keep their band depth rather than crushing to black.
@@ -100,7 +108,6 @@ void main() {
 
   // Grain on perceptual lightness reads the same on dark and light themes.
   // Two samples give a triangular distribution, closer to film grain.
-  vec2 samples=random2(uvec2(gl_FragCoord.xy/uGrainSize));
   float grain=samples.x+samples.y-1.0;
   lab.x+=grain*uGrainAmount;
   fragColor=vec4(srgb(lab),1.0);
